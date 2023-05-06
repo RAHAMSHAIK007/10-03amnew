@@ -1,0 +1,100 @@
+Intro, Workflow (add, commit, restore, logs)
+
+yum install git -y : Command to install git
+git init : to install empty .git repo
+
+git status : To check the status of a file
+
+Red : Untracked
+Green : Tracked
+
+git add java1 : to track the file
+git commit -m "commit-1" java1 : to commit the file
+git log : to check commit history
+git log --oneline : to see commits on sinlge line
+git log -2 : to show last 2 commits
+git log -2 --oneline : to show last 2 commits on oneline
+
+
+create a file -- > add -- > commit 
+
+
+TO CONFIGURE USER & EMAIL: 
+git config user.name "raham"
+git config user.email "raham@gmail"
+
+Note: The old commits will not change 
+
+GIT IGNORE: to ignore some specific files
+it will not track and commits your files
+but it will keep them on your folder
+
+NOTE: .gitignore 
+(. is mandatory)
+
+vim .gitignore
+
+js*
+
+git status
+
+RESTORE: To move back from tacking to untracking 
+git restore --staged raham
+
+
+
+HISTORY:
+
+  1  mkdir swiggy
+    2  cd swiggy/
+    3  ll
+    4  ls -al
+    5  yum install git -y
+    6  git init
+    7  pwd
+    8  ll -a
+    9  touch java1
+   10  git status
+   11  git add java1
+   12  git status
+   13  git commit -m "commit-1" java1
+   14  touch java2
+   15  git status
+   16  git add java2
+   17  git status
+   18  git commit -m "commit-2" java2
+   19  git log
+   20  git log --oneline
+   21  git config user.name "raham"
+   22  git config user.email "raham@gmail"
+   23  git log
+   24  touch java3
+   25  git add java3
+   26  git commit -m "commit-3" java3
+   27  git log
+   28  ll
+   29  touch python{1..5}
+   30  touch js{1..5}
+   31  ll
+   32  git status
+   33  vim .gitignore
+   34  git status
+   35  ll
+   36  vim .gitignore
+   37  git status
+   38  ll
+   39  vim .gitignore
+   40  git status
+   41  git add *
+   42  git status
+   43  git commit -m "commit-4" p*
+   44  ll
+   45  git log
+   46  git log -2
+   47  git log -2 --oneline
+   48  touch raham
+   49  git status
+   50  git add raham
+   51  git status
+   52  git restore --staged raham
+   53  git status
