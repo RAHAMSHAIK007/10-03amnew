@@ -98,3 +98,135 @@ HISTORY:
    51  git status
    52  git restore --staged raham
    53  git status
+
+
+==========================================================================================================
+
+DAY-02: (BRANCHES, MERGE, REBASE, GITHUB, PUSHING ACTIVITES, REVERT)
+
+Default branch in git Master
+
+ git branch movies  : to create branch
+ git branch : to list the branches
+ git checkout movies : to switch the branches
+ git checkout -b recharge : to create and swith parallely
+ git branch -D train : to delete branch forecfully
+ git branch -m recharge raham : to rename a branch
+
+
+MERGE: To combine the branches
+master -- > master + movies = all files from movies branch will come to master
+
+CREATE ROP ON GITHUB
+
+git remote add origin https://github.com/prashanthravikanti2023/swiggy.git
+git push origin master
+
+settings  -- > developer settings -- > personal access token -- > classic
+generate token -- > create --- > select 6 options -- > generate -- >
+
+Note: Token ins visible only for once
+
+
+REVERET: To undo chnages in branch level
+RESTORE: to move file form tracked to untracked
+
+
+HISTORY:
+
+   1  mkdir swiggy
+    2  cd swiggy/
+    3  yum install git -y
+    4  git --version
+    5  git -v
+    6  git init
+    7  ll -a
+    8  touch file1
+    9  git add file1
+   10  git config user.name "raham"
+   11  git config user.email "raham@gmail.com"
+   12  git commit -m "abc commits" file1
+   13  git branch
+   14  git branch movies
+   15  git branch
+   16  git checkout movies
+   17  git branch
+   18  touch movies{1..5}
+   19  git status
+   20  git add *
+   21  git status
+   22  git commit -m "dev-1 commits" *
+   23  ll
+   24  git branch
+   25  git branch train
+   26  git branch
+   27  git checkout train
+   28  ll
+   29  git status
+   30  touch train{1..5}
+   31  git status
+   32  git add *
+   33  git commit -m "dev-2 commits" *
+   34  git status
+   35  git branch
+   36  git checkout -b recharge
+   37  git branch
+   38  ll
+   39  touch recharge{1..5}
+   40  git add *
+   41  git status
+   42  git commit -m "dev-3 commits" *
+   43  git status
+   44  ll
+   45  git checkout movies
+   46  ll
+   47  git branch
+   48  git checkout -b dth
+   49  git branch
+   50  ll
+   51  touch dth{1..5}
+   52  git add *
+   53  git commit -m "dev-4 commits" *
+   54  ll
+   55  git checkout master
+   56  git branch
+   57  ll
+   58  git merge movies
+   59  ll
+   60  git merge train
+   61  ll
+   62  git rebase recharge
+   63  ll
+   64  git rebase dth
+   65  ll
+   66  git remote add origin https://github.com/prashanthravikanti2023/swiggy.git
+   67  ls -al
+   68  git branch
+   69  git push origin master
+   70  git branch
+   71  git push origin movies
+   72  git push origin train
+   73  git branch
+   74  git branch -d train
+   75  git branch -D train
+   76  git branch
+   77  git pull origin train
+   78  ll
+   79  git branch
+   80  git branch -m recharge raham
+   81  git branch
+   82  git branch -m raham abcd
+   83  git branch
+   84  git checkout abcd
+   85  ll
+   86  git merge dth
+   87  ll
+   88  git revert dth
+   89  ll
+   90  touch file2
+   91  git add
+   92  git status
+   93  git add file2
+   94  git status
+   95  git restore --staged file2
+   96  git status
