@@ -230,3 +230,121 @@ HISTORY:
    94  git status
    95  git restore --staged file2
    96  git status
+
+======================================================================
+DAY-03: (BRANCHES, GITHUB MERGE, PULL, PUSH, FETCH, STATSH, CHERRY-PICK, RESTORE, REVERET RENAMEING)
+
+ 2  cd swiggy/
+    3  git branch
+    4  git branch movies
+    5  git checkout movies
+    6  ll
+    7  touch movies{1..5}
+    8  git add *
+    9  git commit -m "dev-1 commits" *
+   10  ll
+   11  git checkout -b train
+   12  touch train{1..5}
+   13  git add *
+   14  git commit -m "dev-2 commits" *
+   15  ll
+   16  git checkout -b recharge
+   17  ll
+   18  touch recharge{1..5}
+   19  git add *
+   20  git commit -m "dev-3 commits" *
+   21  git checkout -b dth
+   22  touch dth{1..5}
+   23  git add *
+   24  git commit -m "dev-4 commits" *
+   25  ll
+   26  git checkout master
+   27  git branch
+   28  ll
+   29  ls -al
+   30  git remote add origin https://github.com/RAHAMSHAIK007/swiggy-project.git
+   31  git push origin master
+   32  git branch
+   33  git push origin movies
+   34  git push origin train
+   35  git push origin recharge
+   36  git push origin dth
+   37  git log
+   38  git branch
+   39  ll
+   40  git pull origin master
+   41  ll
+   42  git pull origin master
+   43  ll
+   44  cat dth1
+   45  git pull origin master
+   46  cat dth1
+   47  git fetch origin master:master
+   48  git fetch
+   49  cat dth1
+   50  ll
+   51  cd
+   52  mkdir abcd
+   53  cd abcd/
+   54  ll
+   55  touch file1
+   56  git add file1
+   57  ls -al
+   58  git init
+   59  git add file1
+   60  ll
+   61  git status
+   62  git commit -m "one" file1
+   63  git branch
+   64  cd
+   65  ll
+   66  cd abcd/
+   67  ll
+   68  touch file2
+   69  git add file2
+   70  git status
+   71  ll
+   72  git stash
+   73  ll
+   74  git stash list
+   75  touch file3
+   76  git add file3
+   77  ll
+   78  git stash
+   79  ll
+   80  git stash list
+   81  ll
+   82  git stash pop
+   83  ll
+   84  git stash clear
+   85  git stash list
+   86  ll
+   87  cd ..
+   88  ll
+   89  cd swiggy/
+   90  git log
+   91  cd
+   92  mkdir raham
+   93  cd raham/
+   94  ll
+   95  git init
+   96  git branch -m branch-1
+   97  touch java{1..5}
+   98  git add *
+   99  git commit -m "java-commits" *
+  100  git branch
+  101  git log
+  102  git checkout -b branch-2
+  103  touch python{1..5}
+  104  git add *
+  105  git commit -m "python-commits" *
+  106  touch php{1..5}
+  107  git add *
+  108  git commit -m "php-commits" *
+  109  git branch
+  110  git log
+  111  git checkout branch-1
+  112  git log
+  113  ll
+  114  git cherry-pick a9e41fd94453f33db32fb3782360407cee08e759
+  115  ll
