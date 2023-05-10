@@ -1,0 +1,394 @@
+provider "aws" {
+region = "ap-south-1"
+}
+
+resource "aws_instance" "one" {
+ami = "ami-0f8ca728008ff5af4"
+instance_type = "t2.micro"
+tags = {
+Name = "web-server"
+}
+}
+
+=========================================================================================================================================
+
+provider "aws" {
+region = "ap-south-1"
+}
+
+resource "aws_instance" "one" {
+ami = "ami-0f8ca728008ff5af4"
+instance_type = var.instance_type
+tags = {
+Name = "web-server"
+}
+}
+
+variable "instance_type" {
+description = "im uisng for my instance variable"
+type = string
+default = "t2.medium"
+}
+
+=========================================================================================================================================
+provider "aws" {
+region = "ap-south-1"
+}
+
+resource "aws_instance" "one" {
+count = 3
+ami = "ami-0f8ca728008ff5af4"
+instance_type = var.instance_type
+tags = {
+Name = "web-server"
+}
+}
+
+variable "instance_type" {
+description = "im uisng for my instance variable"
+type = string
+default = "t2.medium"
+}
+
+
+=========================================================================================================================================
+
+provider "aws" {
+region = "ap-south-1"
+}
+
+resource "aws_instance" "one" {
+count = var.instance_count
+ami = "ami-0f8ca728008ff5af4"
+instance_type = var.instance_type
+tags = {
+Name = "web-server"
+}
+}
+
+variable "instance_type" {
+description = "im uisng for my instance variable"
+type = string
+default = "t2.medium"
+}
+
+variable "instance_count" {
+description = "*"
+type = number
+default = 2
+}
+
+
+
+=========================================================================================================================================
+
+vim main.tf 
+
+provider "aws" {
+region = "ap-south-1"
+}
+
+resource "aws_instance" "one" {
+count = var.instance_count
+ami = "ami-0f8ca728008ff5af4"
+instance_type = var.instance_type
+tags = {
+Name = "web-server"
+}
+}
+
+
+variable.tf 
+
+variable "instance_type" {
+description = "im uisng for my instance variable"
+type = string
+default = "t2.medium"
+}
+
+variable "instance_count" {
+description = "*"
+type = number
+default = 2
+}
+
+
+
+=========================================================================================================================================
+
+provider "aws" {
+region = "ap-south-1"
+}
+
+resource "aws_s3_bucket" "one" {
+  bucket = "raham009988"
+}
+
+resource "aws_ebs_volume" "example" {
+  availability_zone = "ap-south-1a"
+  size              = 40
+
+  tags = {
+    Name = "HelloWorld"
+  }
+}
+
+resource "aws_efs_file_system" "foo" {
+  creation_token = "my-product"
+
+  tags = {
+    Name = "MyProduct"
+  }
+}
+
+
+
+=========================================================================================================================================
+
+DAY -02:
+
+provider "aws" {
+region = "us-east-1"
+}
+
+resource "aws_instance" "one" {
+ami = var.ami_id
+instance_type = "t2.micro"
+tags = {
+Name = "Web-server"
+}
+}
+
+variable "ami_id" {
+
+}
+
+=========================================================================================================================================
+main.tf
+
+provider "aws" {
+region = "us-east-1"
+}
+
+resource "aws_instance" "one" {
+ami = var.ami_id
+instance_type = var.instance_type
+tags = {
+Name = var.instance_name
+}
+}
+
+variable.tf
+
+variable "ami_id" {
+
+}
+
+variable "instance_type" {
+
+}
+
+variable "instance_name" {
+
+}
+
+swiggy.tfvars
+
+ami_id = "ami-0557a15b87f6559cf"
+
+instance_type = "t2.micro"
+
+instance_name = "swiggy-dev"
+
+zomato.tfvars
+
+ami_id = "ami-0c9978668f8d55984"
+
+instance_type = "t2.medium"
+
+instance_name = "zomato-dev"
+
+
+=========================================================================================================================================
+
+provider "aws" {
+region = "us-east-1"
+}
+
+resource "aws_iam_user" "one" {
+count = length(var.user_names)
+name = var.user_names[count.index]
+}
+
+variable "user_names" {
+description = "*"
+type = list(string)
+default = ["user1", "user2", "user3", "user4"]
+}
+
+=========================================================================================================================================
+
+provider "aws" {
+region = "us-east-1"
+}
+
+resource "aws_instance" "xyz" {
+ami = "ami-005f9685cb30f234b"
+instance_type = "t2.medium"
+tags = var.instance_tags
+}
+
+variable "instance_tags" {
+description = "*"
+type = map(string)
+default = {
+name = "swiggy"
+env = "prod"
+server = "app"
+team = "devops"
+}
+}
+=========================================================================================================================================
+DAY :03
+
+provider "aws" {
+  region = "ap-south-1"
+}
+
+locals {
+staging_env = "prod"
+}
+
+resource "aws_vpc" "one" {
+cidr_block = "10.5.0.0/16"
+tags = {
+Name = "${local.staging_env}-vpc"
+}
+}
+
+resource "aws_subnet" "two" {
+vpc_id = aws_vpc.one.id
+cidr_block = "10.5.0.0/16"
+availability_zone = "ap-south-1a"
+tags = {
+Name = "${local.staging_env}-subnet"
+}
+}
+
+resource "aws_instance" "three" {
+  ami           = "ami-074dc0a6f6c764218"
+  instance_type = "t2.medium"
+  subnet_id = aws_subnet.two.id
+  tags = {
+    Name = "${local.staging_env}-instance"
+  }
+}
+
+
+=========================================================================================================================================
+
+provider "aws" {
+region = "ap-south-1"
+}
+
+provider "aws" {
+alias = "east"
+region = "us-east-1"
+}
+
+resource "aws_instance" "three" {
+ami = "ami-05afd67c4a44cc983"
+instance_type = "t2.nano"
+tags = {
+Name = "mumbai"
+}
+}
+
+resource "aws_instance" "two" {
+provider = aws.east
+ami = "ami-02f3f602d23f1659d"
+instance_type = "t2.nano"
+tags = {
+Name = "nvirginia"
+}
+}
+
+=========================================================================================================================================
+
+provider "aws" {
+region = "ap-south-1"
+}
+
+resource "aws_iam_user" "one" {
+for_each = var.user_names
+name = each.value
+}
+
+
+variable "user_names" {
+description = "*"
+type = set(string)
+default = ["user1", "user2", "user3", "user3"]
+}
+
+=========================================================================================================================================
+DYNMIC BLOCKS:
+
+locals {
+   ingress_rules = [{
+port= 443
+description = "Ingress rules for port 443"
+   },
+   {
+port= 80
+description = "Ingree rules for port 80"
+   }]
+}
+
+resource "aws_instance" "ec2_example" {
+    ami = "ami-0c02fb55956c7d316"
+    instance_type = "t2.micro"
+    vpc_security_group_ids = [aws_security_group.main.id]
+    tags = {
+Name = "Terraform EC2"
+    }
+}
+
+resource "aws_security_group" "main" {
+
+egress = [
+{
+cidr_blocks      = [ "0.0.0.0/0" ]
+description      = "*"
+from_port= 0
+ipv6_cidr_blocks = []
+prefix_list_ids  = []
+protocol= "-1"
+security_groups  = []
+self= false
+to_port= 0
+} ]
+
+dynamic "ingress" {
+for_each = local.ingress_rules
+
+content {
+description = "*"
+from_port = ingress.value.port
+to_port = ingress.value.port
+protocol = "tcp"
+cidr_blocks = ["0.0.0.0/0"]
+}
+}
+
+tags = {
+Name = "terra sg"
+}
+}
+
+
+=========================================================================================================================================
+
+=========================================================================================================================================
+
+=========================================================================================================================================
