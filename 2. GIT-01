@@ -348,3 +348,75 @@ DAY-03: (BRANCHES, GITHUB MERGE, PULL, PUSH, FETCH, STATSH, CHERRY-PICK, RESTORE
   113  ll
   114  git cherry-pick a9e41fd94453f33db32fb3782360407cee08e759
   115  ll
+
+=============================================================
+
+DAY-04:
+
+https://the.earth.li/~sgtatham/putty/latest/w64/putty-64bit-0.78-installer.msi 
+
+DAY-04:
+
+  1  mkdir raham
+    2  cd raham/
+    3  yum install git -y
+    4  git init
+    5  touch file1
+    6  vim file1
+    7  git add file1
+    8  git commit -m "dev-1 commits-1" file1
+    9  ll
+   10  git branch
+   11  git branch -m master branch-1
+   12  git branch
+   13  git checkout -b branch-2
+   14  ll
+   15  vim file1
+   16  git add file1
+   17  git commit -m "dev-2 commits-1" file1
+   18  git checkout branch-1
+   19  ll
+   20  vim file1
+   21  git add file1
+   22  git commit -m "dev-1 commit-2" file1
+   23  git branch
+   24  cat file1
+   25  git checkout branch-2
+   26  cat file1
+   27  git checkout branch-2
+   28  git checkout branch-1
+   29  cat file1
+   30  git merge branch-2
+   31  git diff file1
+   32  vim file1
+   33  git add file1
+   34  git status
+   35  git commit -m "new" file1
+   36  git commit -m "new"
+   37  cat file1
+   38  cd
+   39  ll
+   40  rm -rf raham/
+   41  ll
+   42  git clone https://github.com/devops0014/pic.git
+   43  ll
+   44  cd pic/
+   45  ll
+   46  cat nani nani
+   47  cat nani
+   48  dc
+   49  cd
+   50  ll
+   51  git clone https://github.com/devops0014/nodejs-docker.git
+   52  ll
+   53  cd nodejs-docker
+   54  ll
+   55  cd
+   56  rm -rf *
+   57  vim inde.hrtml
+   58  git clone https://github.com/devops0014/devisyam-repo.git
+   59  ll
+   60  history
+   61  git log --oneline
+   62  git show 38ba354
+   63  git diff 38ba354
