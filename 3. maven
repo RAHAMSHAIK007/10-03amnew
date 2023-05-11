@@ -1,0 +1,49 @@
+  1  ll
+    2  wget https://dlcdn.apache.org/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+    3  ll
+    4  tar -zxvf apache-maven-3.6.3-bin.tar.gz
+    5  ll
+    6  cd apache-maven-3.6.3/
+    7  ll
+    8  yum install java-1.8.0-openjdk -y
+    9  java -version
+   10  yum install maven -y
+   11  mvn --version
+   12  mvn archetype:generate
+   13  ll
+   14  yum install tree
+   15  ll
+   16  cd swiggy/
+   17  ll
+   18  tree
+   19  vim pom.xml
+   20  tree
+   21  ll
+   22  mvn compile
+   23  ll
+   24  tree
+   25  mvn test
+   26  tree
+   27  mvn package
+   28  tree
+   29  pwd
+   30  mvn install
+   31  cd /root/.m2/repository/devops/swiggy/1.0-SNAPSHOT/
+   32  ll
+   33  cd -
+   34  ll
+   35  mvn deploy
+   36  ll
+   37  mvn clean
+   38  ll
+   39  mvn compile
+   40  ll
+   41  tree
+   42  mvn test
+   43  tree
+   44  mvn package
+   45  tree
+   46  mvn install
+   47  mvn clean
+   48  mvn clean package
+   49  history
