@@ -51,5 +51,43 @@ Environment variables -- > add
 
 
 -------------------------------------------------------------------------------------------------------
+DAY-01 : HISTORY
 
+ 1  sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    2  sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+    3  amazon-linux-extras install java-openjdk11 -y
+    4  java -version
+    5  yum install git maven jenkins -y
+    6  systemctl start jenkins.service
+    7  systemctl status jenkins.service
+    8  cat /var/lib/jenkins/secrets/initialAdminPassword
+    9  cd /var/lib/jenkins/workspace/job1
+   10  ls
+   11  cd
+   12  mkdir tcs/jenkinsbuilds
+   13  mkdir -p tcs/jenkinsbuilds
+   14  ll
+   15  ls tcs/
+   16  cd /
+   17  ll
+   18  ls root/
+   19  ls root/tcs/
+   20  ls root/tcs/jenkinsbuilds/
+   21  cat /etc/passwd | grep -i jenkins
+   22  chown jenkins:jenkins /root/* -R
+   23  ll
+   24  chown jenkins:jenkins /root/ -R
+   25  ll
+   26  cd /root/
+   27  ll
+   28  cd tcs/
+   29  ll
+   30  cd jenkinsbuilds/
+   31  ll
+   32  cd /var/lib/jenkins/workspace/job2
+   33  ll
+   34  cat one.txt
+   35  cat two.txt
+   36  history
+-
 
