@@ -1,0 +1,55 @@
+JENKINS SETUP:
+
+STEP-1: GETTING REPO AND KEY FROM JENKINS.IO
+
+sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+
+SETP-2: INSTALLING JAVA-11 (SUPPORTS 11 OR 17)
+amazon-linux-extras install java-openjdk11 -y
+java -version
+
+STEP-3: INSTALLING GIT, MAVEN & JENKINS
+yum install git maven jenkins -y
+
+STEP-4: RESTARTING JENKINS
+
+When we download a service in Linux it will be on stropped state
+
+systemctl start jenkins.service
+systemctl status jenkins.service
+
+STEP-5: CONNECTING TO JENKINS DASHBOARD
+
+public-ip:8080
+
+------------------------------------------------------------------
+CUSTOM WORKSPACE:
+mdkir -p tcs/jenkinsbuilds
+cd /
+chown jenkins:jenkins /root/ -R
+
+
+TO EXECUTE LINUX COMMANDS:
+Build Steps  -- > execute shell
+
+touch file1
+touch java
+lscpu > one.txt
+cat /etc/passwd > two.txt
+
+VARIABLES :
+1. USER DEFINED VARIABLES
+2. JENKINS ENV VARIABLES
+
+USER DEFINED VARIABLES: (these are case sensitive)
+A. LOCAL VARS: works inside the job only
+
+B. GLOBAL VARS: Works anywhere
+Dashboard  -- > Manage Jenkins -- > Configure System -- > Global properties 
+Environment variables -- > add
+
+
+-------------------------------------------------------------------------------------------------------
+
+
