@@ -89,5 +89,67 @@ DAY-01 : HISTORY
    34  cat one.txt
    35  cat two.txt
    36  history
--
+-===============================================================================================
+
+DAY-02: 
+
+vim jenkins.sh
+
+sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+amazon-linux-extras install java-openjdk11 -y
+yum install git maven jenkins -y
+systemctl start jenkins.service
+systemctl status jenkins.service
+
+sh jenkins.sh
+
+JENKINS ENV VARIABLES: These vars are defined by jenkins by default
+some JENKINS ENV VARIABLES are going to change for everybuild
+clikc on  list of available environment variables
+
+echo "hai all and the build number is: $BUILD_NUMBER, the job name is: $JOB_NAME"
+echo "the branch name is: $GIT_BRANCH, the commit is: $GIT_COMMIT"
+
+
+PARAMETERS:
+
+1. CHOICE: 
+Configure -- > Tis project is parameterized -- > Add parameter -- > choice
+
+2. STRING 
+Configure -- > Tis project is parameterized -- > Add parameter -- > string
+
+3. MULTI STRING:
+Configure -- > Tis project is parameterized -- > Add parameter -- > multi string
+
+4. FILE:
+Configure -- > Tis project is parameterized -- > Add parameter -- > File
+
+5. BOOL:
+Configure -- > Tis project is parameterized -- > Add parameter -- > Bool
+
+
+
+
+THROTTLE BUILD: To restrict the number of builds in a job
+
+Build Triggers:
+tigger builds remotely (e.g., from scripts)
+
+http://54.226.204.86:8080/job/raham/build?token=abcd
+
+LINKED JOBS: jobs are linked with other jobs
+1. UPSTREAM
+2. DOWN STREAM
+
+
+PASSWORD LESS LOGIN:
+cd /var/lib/jenkins
+vim config.xml
+
+  <useSecurity>true</useSecurity>
+  <useSecurity>false<security>
+
+systemctl restart jenkins.service
 
