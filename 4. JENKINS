@@ -153,3 +153,248 @@ vim config.xml
 
 systemctl restart jenkins.service
 
+
+------------------------------------------------------------------------
+
+DAY-03:
+
+PIPELINE:
+
+SINGLE STAGE PIPLEINE:
+
+pipeline {
+    agent any
+    
+    stages {
+        stage('stage-1') {
+            steps {
+                sh 'touch file1'
+            }
+        }
+}
+
+-----------------------------------------------------------------------------------------------------------------------------
+MULTI STAGE PIPELINE:
+
+pipeline {
+    agent any
+    
+    stages {
+        stage('stage-1') {
+            steps {
+                sh 'touch file1'
+            }
+        }
+        stage('stage-2') {
+            steps {
+                echo '"hai all" > file1'
+            }
+        }
+        stage('stage-3') {
+            steps {
+                sh 'mv file1 raham'
+            }
+        }
+    }
+}
+-----------------------------------------------------------------------------------------------------------------------------
+PIPELIEN AS A CODE:
+
+
+pipeline {
+    agent any
+    
+    stages {
+        stage('stage-1') {
+            steps {
+                sh 'touch file2'
+                echo '"hai all this is my file2" > file2'
+                sh 'mv file2 file3'
+            }
+        }
+    }
+}
+
+
+
+pipeline {
+    agent any
+    
+    stages {
+        stage('stage-1') {
+            steps {
+                sh 'lscpu'
+                sh 'lsmem'
+                sh 'cat /etc/passwd'            }
+        }
+    }
+}
+
+PIPELIEN AS A CODE AS A SINGLE LINE:
+
+pipeline {
+    agent any
+    
+    stages {
+        stage('stage-1') {
+            steps {
+                sh '''
+                lscpu
+                lsmem
+                cat /etc/passwd
+                '''
+                
+            }
+        }
+    }
+}
+
+-----------------------------------------------------------------------------------------------
+
+ENV VARS:
+
+pipeline {
+   agent any
+
+   stages {
+       stage('ENV') {
+           steps {
+               sh 'echo "${BUILD_NUMBER}"'
+               sh 'echo ${JOB_NAME}'
+           }
+       }
+   }
+}
+
+USER DEFINED VARS:
+
+pipeline {
+   agent any
+   environment {
+       name = 'raham'
+       loc = 'hyd'
+   }
+
+   stages {
+       stage('ENV') {
+           steps {
+               sh 'echo "${BUILD_NUMBER}"'
+               sh 'echo ${JOB_NAME}'
+               sh 'echo my name is: $name and im from: $loc'
+           }
+       }
+   }
+}
+
+
+pipeline {
+   agent any
+   environment {
+       name = 'raham'
+       loc = 'hyd'
+   }
+
+   stages {
+       stage('jen-env-vars') {
+           steps {
+               sh '''
+               echo $BUILD_NUMBER
+               echo The job name is: $JOB_NAME
+               '''
+           }
+       }
+       stage('user-defined-vars') {
+           steps {
+               sh '''
+               echo my name is: $name
+               echo im from: $loc
+               '''
+           }
+       }
+   }
+}
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+PASSING PARAMETERS:
+
+pipeline {
+   agent any
+   environment {
+       name = 'raham'
+       loc = 'hyd'
+   }
+    parameters {
+           string(name: 'person', defaultValue: 'raham shaik', description: "how are you")
+           choice(name: 'server', choices: ['a','b','c'], description: "")
+       }
+
+   stages {
+       stage('jen-env-vars') {
+           steps {
+               sh '''
+               echo $BUILD_NUMBER
+               echo The job name is: $JOB_NAME
+               '''
+           }
+       }
+       stage('user-defined-vars') {
+           steps {
+               sh '''
+               echo my name is: $name
+               echo im from: $loc
+               '''
+           }
+       }
+   }
+}
+
+-----------------------------------------------------------------
+
+INTEGRATION OF GIT WITH JENKINS
+
+pipeline {
+    agent any 
+    
+    stages{
+        stage('checkout') {
+            steps {
+              git 'https://github.com/devopsbyraham/jenkins-java-project.git'
+            }
+        }
+        stage('test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+    }
+}
+
+INPUT PARAMETER:
+
+pipeline {
+    agent any 
+    
+    stages{
+        stage('checkout') {
+            steps {
+              git 'https://github.com/devopsbyraham/jenkins-java-project.git'
+            }
+        }
+        stage('test') {
+            steps {
+                echo "my code is tested"
+            }
+        }
+        stage('deploy') {
+            input {
+               message "Can We Continue ?"
+               ok "Yes We Can Continue"
+        }
+            steps {
+                echo "my code is deployed"
+            }
+        }
+    }
+}
+
