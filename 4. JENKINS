@@ -398,3 +398,84 @@ pipeline {
     }
 }
 
+=======================================================================================================================
+
+DAY-04:
+
+MASTER & SLAVE: To distribute the workload
+LBALES: to assign the work for particular slave
+
+SETUP A SLAVE:
+1. Create a server and install agent (JAVA-11)
+2. configure agent 
+
+    Dashboard
+    Manage Jenkins
+    Nodes
+    New node
+
+ Number of executors : 3
+ Remote root directory: /tmp
+ Labels: prod
+ hostname: private-ip-slave
+ creds: ssh username with private key
+ user: ec2-user
+ private key: pem file
+ Host Key Verification Strategy: non verifying
+
+
+Restrict where this project can be run : Label Expression : Prod
+
+-------------------------------------------------------
+
+PIPELINE:
+
+pipeline {
+  agent {
+    node {
+      label 'prod'
+    }
+  }
+  
+  stages {
+    stage ("one") {
+      steps {
+        echo "hai"
+      }
+    }
+  }
+}
+
+---------------------------------------------------------------------------
+
+POST BUILD ACTIONS: Actions that are going to happenn after the build
+
+ALWAYS : build is success or failure output will come
+SUCCESS : only output will come if build is success
+FAILURE : only output will come if build is failure
+
+pipeline {
+  agent {
+    node {
+      label 'prod'
+    }
+  }
+  
+  stages {
+    stage ("one") {
+      steps {
+        echo1 "hai"
+      }
+    }
+  }
+  post {
+      failure {
+          echo 'my build is done'
+      }
+  }
+}
+
+-------------------------------------------------------------
+
+
+
