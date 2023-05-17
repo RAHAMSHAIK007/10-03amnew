@@ -477,5 +477,41 @@ pipeline {
 
 -------------------------------------------------------------
 
+DAY-05:
+
+RBAC: ROLE BASED ACCESS CONTROL
+
+
+EXP : ANY THING
+FRE : FEW OPTIONS (BUILD)
+
+1. USER-- > 2 USER
+2. Dashboard -- > Manage Jenkins -- > Plugin Manager -- > AVAILABLE -- > Role-based Authorization Strategy
+3. Dashboard -- > Manage Jenkins -- > Configure Global Security -- > Authorization -- > Role-based Authorization 
+4. ROLES -- > 2 ROLES 
+
+
+-----------------------------------------------------------------------------------
+
+JOB VIEWS:
+
+------------------------------------------------------------------------------------
+
+CRON JOB: TO SCHEDULE THE WORK.
+CRON  SYNTAX: * * * * *
+
+*	: MINUTES
+*   : HOURS
+*	: DATE
+*	: MONTH
+*   : DAY OF WEEK (SUN=0, MON=1, T=2 ---- S=6)
+
+
+POLL SCM: It will trigger the build if source code is changed.
+
+WEBHOOK: When dev chnages the code job will trigger immedieately.
+
+
+
 
 
