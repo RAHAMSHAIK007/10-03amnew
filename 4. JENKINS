@@ -512,6 +512,82 @@ POLL SCM: It will trigger the build if source code is changed.
 WEBHOOK: When dev chnages the code job will trigger immedieately.
 
 
+PROJECT:
+
+
+
+TICKET: Assign the work
+DEV/TEST 
+TOOLS : SharePoint, JIRA, TRELLO, WORKDAY, SERVICENOW
+
+ORG NAME: TCS
+CLIENT: SWIGGY
+TASK: DEPLOY/RESTART/BACKUPS
+ENV: DEV/TEST/PROD/UAT
+
+BRANCH: MASTER
+GITHUB-REPO: 
+PRIORITY: HIGH/LOW/MEDIUM
+ASSIGNED-TO: RAHAM
+COMMENTS: TAKE BACKUP
+--------------------------------------------------------
+
+TAKEN-BY: RAHAM
+STATED TIME: 11:30
+PROGRESS: ON-GOING/YET TO START/COMPLETED
+STATUS: SUCCESS OR FAILED
+TIME TAKEN: 2 HRS
+COMMENTS:
+
+
+history: master
+
+ 1  amazon-linux-extras install epel -y
+    2  amazon-linux-extras install java-openjdk11 -y
+    3  yum install jenkins -y
+    4    sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    5    sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+    6  yum install jenkins -y
+    7  systemctl start jenkins.service
+    8  systemctl status jenkins.service
+    9  yum install git java-1.8.0-openjdk maven -y
+   10  java -version
+   11  update-alternatives --config java
+   12  java -version
+   13  update-alternatives --config java
+   14  java -version
+   15  update-alternatives --config java
+   16  java -version
+   17  update-alternatives --config java
+   18  histroy
+   19  history
+
+slave: 
+
+ 1  amazon-linux-extras install java-openjdk11 -y
+    2  hostname -i
+    3  yum install git java-1.8.0-openjdk maven -y
+    4  java -version
+    5  wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.74/bin/apache-tomcat-9.0.74.tar.gz
+    6  ll
+    7  tar -zxvf apache-tomcat-9.0.74.tar.gz
+    8  cd apache-tomcat-9.0.74/
+    9  ll
+   10  vim webapps/manager/META-INF/context.xml
+   11  vim conf/tomcat-users.xml
+   12  cd bin/
+   13  ll
+   14  ./startup.sh
+   15  ./shutdown.sh
+   16  ./startup.sh
+   17  update-alternatives --config java
+   18  java -version
+   19  history
+
+
+
+
+
 
 
 
