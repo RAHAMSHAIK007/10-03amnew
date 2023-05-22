@@ -70,3 +70,93 @@ ls : linux commands
 ansible all -a "touch file1"
 ansible all -a "yum install git -y"
 
+
+==============================================================================================================================================================
+DAY-02: 
+
+MODULES: 
+work on key-value pairs.
+key-value pair is also called a Dictionary.
+Modules are reusable
+define -m for module
+
+ansible all -a "yum install git -y"
+
+ansible all -m yum -a "pkg=git state=present"
+ansible all -m yum -a "pkg=java-1.8.0-openjdk state=present"
+ansible all -m yum -a "name=httpd state=present"
+ansible all -m yum -a "name=httpd state=latest"
+ansible all -m service -a "name=httpd state=restarted"
+ansible all -m user -a "name=venkat state=present
+ansible all -m user -a "name=venky"
+ansible all -m copy -a "src=app.yml dest=/tmp"
+
+
+
+PLAYBOOKS: 
+Consist of one or more than one module
+to do the work more efficiently
+to write the playbook we need to use YAML.
+YAML=YET ANOTHER MARKUP LANGUAGE
+It is serializable language & Human readable language.
+in Yaml the first line starts with --- & end with ...
+key-value pair 
+indentation is more important.
+yml=yaml
+
+
+PLAYBOOK-1:
+
+- hosts: all
+  tasks:
+    - name: installing git
+      yum: name=git state=present
+...
+
+ansible-playbook playbook1.yml
+
+- hosts: all
+  tasks:
+    - name: abc
+      yum: name=git* state=absent
+...
+
+======================================================================
+
+PLAYBOOK-2:
+
+---
+- hosts: all
+  tasks:
+    - name: installing java
+      yum: name=java-1.8.0-openjdk state=present
+
+    - name: installing tree
+      yum: name=tree state=present
+
+
+
+- hosts: all
+  tasks:
+    - name: installing java
+      yum: name=java-1.8.0-openjdk state=absent
+
+    - name: installing tree
+      yum: name=tree state=absent
+
+
+==================================================================
+
+- hosts: all
+  tasks:
+    - name: installing java
+      yum: name=java-1.8.0-openjdk state=present
+
+    - name: installing tree
+      yum: name=tree state=present
+
+    - name: installing docker
+      action: yum name=docker state=present
+
+
+
