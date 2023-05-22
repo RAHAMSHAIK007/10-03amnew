@@ -159,4 +159,77 @@ PLAYBOOK-2:
       action: yum name=docker state=present
 
 
+HISTORY:
 
+61  ansible all --list-hosts
+   62  ansible ping -m all
+   63  ansible -m ping all
+   64  ansible all -a "yum install git -y"
+   65  ansible all -a "yum remove git* -y"
+   66  ansible all -a "yum install git -y"
+   67  ansible all -a "yum remove git* -y"
+   68  ansible all -m yum -a "pkg=git state=present"
+   69  ansible all -m yum -a "pkg=java-1.8.0-openjdk state=present"
+   70  ansible all -a "java -version"
+   71  ansible all -m yum -a "name=httpd state=present"
+   72  ansible all -m yum -a "name=httpd state=update"
+   73  ansible all -m yum -a "name=httpd state=latest"
+   74  ansible all -m yum -a "name=httpd state=restart"
+   75  ansible all -m service -a "name=httpd state=restart"
+   76  ansible all -m service -a "name=httpd state=restarted"
+   77  ansible all -m user -a "name=venkat state=present"
+   78  ansible all -m user -a "name=vijayyy"
+   79  vim app.yml
+   80  ll
+   81  ansible all -m copy -a "src=app.yml dest=/tmp"
+   82  ansible all -a "ls /tmp"
+   83  rm -f app.yml 
+   84  vim raham.yml
+   85  ansible all -a "yum remove git* -y"
+   86  history
+   87  ansible all -a "cat /etc/passwd"
+   88  ansible-playbook raham.yml 
+   89  vim raham.yml 
+   90  ansible-playbook raham.yml 
+   91  vim raham.yml 
+   92  ansible-playbook raham.yml 
+   93  cat raham.yml 
+   94  ll
+   95  mv raham.yml playbook1.yml
+   96  cat playbook1.yml 
+   97  vim raham.yml 
+   98  vim playbook1.yml 1
+   99  cat playbook1.yml 
+  100  ansible-playbook playbook1.yml 
+  101  cat playbook1.yml 
+  102  vim playbook1.yml 
+  103  vim playbook2.yml
+  104  ansible-playbook playbook2.yml 
+  105  vim playbook2.yml 
+  106  ansible-playbook playbook2.yml 
+  107  ansible all -a "yum remove maven -y"
+  108  cat playbook
+  109  cat playbook2.yml 
+  110  ansible-playbook playbook2.yml 
+  111  vim playbook2.yml 
+  112  ansible-playbook playbook2.yml 
+  113  ansible all -a "yum remove maven* -y"
+  114  ansible all -a "yum remove maven -y"
+  115  vim playbook2.yml 
+  116  ansible-playbook playbook2.yml 
+  117  cat playbook2.yml 
+  118  vim playbook2.yml 
+  119  ansible-playbook playbook2.yml 
+  120  cat playbook2.yml 
+  121  vim playbook
+  122  cp playbook2.yml playbook3.yml
+  123  vim playbook2.yml 
+  124  ansible-playbook playbook3.yml 
+  125  cat playbook3.yml 
+  126  cat playbook2.yml 
+  127  ansible-playbook playbook2.yml 
+  128  cat playbook2.yml 
+  129  vim playbook2.yml 
+  130  ansible-playbook playbook2.yml 
+  131  cat playbook2.yml 
+  
