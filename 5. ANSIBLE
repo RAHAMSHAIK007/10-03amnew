@@ -233,3 +233,188 @@ HISTORY:
   130  ansible-playbook playbook2.yml 
   131  cat playbook2.yml 
   
+============================================================================
+
+TAGS: to execute a specific task on the playbook with having a number of tasks.
+
+
+- hosts: all
+  tasks:
+    - name: installing java
+      yum: name=java-1.8.0-openjdk state=present
+      tags: a
+
+    - name: installing tree
+      yum: name=tree state=present
+      tags: b
+
+    - name: installing docker
+      action: yum name=docker state=present
+      tags: c
+
+SINGLE TAG EXECUTION:
+ansible-playbook playbook2.yml --tags c
+ansible-playbook playbook2.yml --tags a
+
+MULTI TAG EXECUTION:
+ansible-playbook playbook2.yml --tags a,c
+
+SKIPPING TAGS:
+ansible-playbook playbook2.yml --skip-tags  "a"
+ansible-playbook playbook2.yml --skip-tags  "b"
+==================================================================
+
+VARIABLE: Used to assign the value which will vary as per the requirement.
+STATIC: Defines inside the playbook.
+DYNAMIC: Passing the variable during executing the playbook.
+
+SINGLE STATIC EXAMPLE:
+- hosts: all
+  vars:
+    a: tree
+  tasks:
+    - name: installing java
+      yum: name={{a}} state=present
+
+ansible-playbook playbook2.yml
+
+
+MULTIPLE STATIC VARIABLE:
+
+- hosts: all
+  vars:
+    a: tree
+    b: docker
+  tasks:
+    - name: task-1
+      yum: name={{a}} state=present
+
+    - name: task-2
+      yum: name={{b}} state=present
+
+ansible-playbook playbook2.yml
+
+- hosts: all
+  vars:
+    a: tree
+    b: docker
+  tasks:
+    - name: task-1
+      yum: name={{a}} state=present
+      yum: name={{b}} state=present
+
+ansible-playbook playbook2.yml
+
+
+SINGLE DYNAMIC EXAMPLE:
+- hosts: all
+  tasks:
+    - name: installing java
+      yum: name={{a}} state=present
+
+ansible-playbook playbook2.yml --extra-vars "a=maven"
+
+- hosts: all
+  tasks:
+    - name: task-1
+      yum: name={{a}} state=present
+      yum: name={{b}} state=present
+
+ansible-playbook playbook2.yml --extra-vars "a=maven, b=tree"
+
+==================================================================
+
+LOOPS: will run until it satisfies the condition.
+
+- hosts: all
+  tasks:
+    - name: task-1
+      yum: name={{item}} state=present
+      with_items:
+        - git
+        - maven
+        - docker
+        - httpd
+        - tree
+        - java-1.8.0-openjdk
+
+
+- hosts: all
+  tasks:
+    - name: task-1
+      user: name={{item}} state=present
+      with_items:
+        - user1
+        - user2
+        - user3
+        - user4
+        - user5
+        - user6
+
+
+
+
+HSITORY:
+
+134  cat playbook2
+  135  cat playbook2.yml
+  136  rm -rf playbook1.yml playbook3.yml
+  137  vim playbook2.yml
+  138  ansible all -a "yum remove tree* java-1.8.0-openjdk* docker* -y"
+  139  cat playbook2.yml
+  140  ansible-playbook playbook2.yml --tags b
+  141  cat playbook2.yml
+  142  ansible-playbook playbook2.yml --tags c
+  143  cat playbook2.yml
+  144  ansible all -a "yum remove tree* java-1.8.0-openjdk* docker* -y"
+  145  cat playbook2.yml
+  146  ansible-playbook playbook2.yml --tags a,c
+  147  ansible all -a "yum remove tree* java-1.8.0-openjdk* docker* -y"
+  148  cat playbook2.yml
+  149  ansible-playbook playbook2.yml --skipped-tags  "a"
+  150  ansible-playbook playbook2.yml --skip-tags  "a"
+  151  ansible-playbook playbook2.yml --skip-tags  "b"
+  152  ansible all -a "yum remove tree* java-1.8.0-openjdk* docker* -y"
+  153  vim playbook2.yml
+  154  cat playbook2.yml
+  155  ansible-playbook playbook2.yml
+  156  vim playbook2.yml
+  157  ansible-playbook playbook2.yml
+  158  vim playbook2.yml
+  159  cat playbook2.yml
+  160  ansible-playbook playbook2.yml --extra-vars "a=maven"
+  161  vim playbook2.yml
+  162  ansible all -a "yum remove tree* java-1.8.0-openjdk* docker* -y"
+  163  cat playbook2.yml
+  164  ansible-playbook playbook2.yml
+  165  cat playbook2.yml
+  166  ansible all -a "yum remove tree* java-1.8.0-openjdk* docker* -y"
+  167  vim playbook2.yml
+  168  ansible-playbook playbook2.yml
+  169  cat playbook2.yml
+  170  ansible all -a "yum remove tree* java-1.8.0-openjdk* docker* -y"
+  171  vim playbook2.yml
+  172  ansible-playbook playbook2.yml --extra-vars "a=maven,b=tree"
+  173  cat playbook2.yml
+  174  ansible-playbook playbook2.yml --extra-vars "a=maven, b=tree"
+  175  ansible all -a "mvn --version"
+  176  ansible all -a "tree --version"
+  177  vim playbook2.yml
+  178  ansible-playbook playbook2.yml
+  179  ansible all -a "git -v"
+  180  ansible all -a "tree -v"
+  181  ansible all -a "tree --version"
+  182  ansible all -a "mvn --version"
+  183  ansible all -a "docker --version"
+  184  ansible all -a "httpd --version"
+  185  ansible all -a "java -version"
+  186  cat playbook2.yml
+  187  vim playbook2.yml
+  188  ansible-playbook playbook2.yml
+  189  vim playbook2.yml
+  190  ansible-playbook playbook2.yml
+  191  ansible all -a "cat /etc/passwd"
+  192  vim playbook2.yml
+  193  ansible-playbook playbook2.yml
+  194  ansible all -a "cat /etc/passwd"
+  195  history
