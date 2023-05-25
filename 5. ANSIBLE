@@ -418,3 +418,209 @@ HSITORY:
   193  ansible-playbook playbook2.yml
   194  ansible all -a "cat /etc/passwd"
   195  history
+
+=====================================================================
+
+DAY-04:
+
+DAY04:
+
+CONDITIONS:
+
+- hosts: all
+  tasks:
+    - name: INSTALLING TREE ON REDHAT
+      command: yum install tree -y
+      when: ansible_os_family == "RedHat"
+    - name: INSTALLING TREE ON UBUNTU
+      command: apt install tree -y
+      when: ansible_os_family == "Debian"
+
+
+- hosts: all
+  tasks:
+    - name: INSTALLING TREE ON REDHAT
+      command: yum install docker -y
+      when: ansible_os_family == "RedHat"
+    - name: INSTALLING TREE ON UBUNTU
+      command: apt install docker -y
+      when: ansible_os_family == "Debian"
+
+
+==================================================================
+
+HANDLERS: one task is linked with another task.
+the task will execute when it will be called by another task.
+will consist of a notification that indicates we need to start another task.
+
+NOTE: Notify and name will be same if not we will get error.
+
+- hosts: all
+  tasks:
+    - name: INSTALLING HTTPD
+      command: yum install httpd -y
+
+    - name: RESTARTINH HTTPD
+      command: systemctl restart httpd
+
+
+- hosts: all
+  tasks:
+    - name: INSTALLING HTTPD
+      command: yum install httpd -y
+      notify: RESTARTING HTTPD
+  handlers:
+    - name: RESTARTING HTTPD
+      command: systemctl restart httpd
+
+- hosts: all
+  tasks:
+    - name: INSTALLING DOCKER
+      command: yum install docker -y
+      notify: RESTARTING DOCKER
+  handlers:
+    - name: RESTARTING DOCKER
+      command: systemctl restart docker
+
+
+==================================================================
+
+VAULT: Used to store the data in encryption format (AES256)
+
+ansible-vault create creds.txt
+ansible-vault edit creds.txt
+ansible-vault rekey creds.txt
+ansible-vault decrypt creds.txt
+ansible-vault encrypt creds.txt
+ansible-vault view creds.txt
+
+NOTE: ansible-vault will encrypt the playbook as well
+so when you encrypt it will ask password and if you want to run the playbook you need to give that password, if not playbook will not be executed.
+
+ansible-vault decrypt playbook2.yml
+
+==================================================================
+CONETNT:
+
+- hosts: all
+  tasks:
+    - name: COPYING THE CONTENT
+      copy:
+        dest: "abc.txt"
+        content: |
+          HAI ALL
+
+
+==================================================================
+
+PYTHON MODULES: Used to manage python libraries on the remote servers.
+
+linux: yum or apt
+Python: pip 
+
+- hosts: all
+  tasks:
+    - name: INSTALLING NumPy
+      pip:
+        name: NumPy
+
+
+- hosts: all
+  tasks:
+    - name: INSTALLING Pandas
+      pip:
+        name: Pandas
+
+==================================================================
+
+RAW VS COMMAND VS SHELL:
+
+RAW: To execute Linux commands as like commands, shell modules.
+
+
+- hosts: all
+  tasks:
+    - name: INSTALLING TREE
+      shell: yum install tree -y
+
+    - name: INSTALLING docker
+      command: yum install docker -y
+
+    - name: INSTALLING maven
+      raw: yum install maven -y
+
+HISTORY:
+ 196  vim playbook2.yml
+  197  ansible setup -m dev[1]
+  198  ansible -m setup dev[1]
+  199  cat playbook2.yml
+  200  ansible -m setup dev[1]
+  201  ansible -m setup dev[1] | grep -i family
+  202  cat playbook2.yml
+  203  ansible-playbook playbook2.yml
+  204  vim playbook2.yml
+  205  ansible-playbook playbook2.yml
+  206  cat playbook2.yml
+  207  vim playbook2.yml
+  208  ansible-playbook playbook2.yml
+  209  vim playbook2.yml
+  210  ansible-playbook playbook2.yml
+  211  cat playbook2.yml
+  212  vim playbook2.yml
+  213  ansible-playbook playbook2.yml
+  214  vim playbook2.yml
+  215  ansible-playbook playbook2.yml
+  216  vim playbook2.yml
+  217  ansible-playbook playbook2.yml
+  218  cat playbook2.yml
+  219  vim playbook2.yml
+  220  ansible-playbook playbook2.yml
+  221  cat playbook2.yml
+  222  vim playbook2.yml
+  223  ansible-playbook playbook2.yml
+  224  cat playbook2.yml
+  225  vim playbook2.yml
+  226  ansible all -a "yum remove docker* tree* -y"
+  227  ansible all -a "yum remove httpd* -y"
+  228  ll
+  229  vim creds
+  230  cat creds
+  231  rm -rf creds
+  232  ll
+  233  ansible-vault create creds.txt
+  234  cat creds.txt
+  235  ll
+  236  ansible-vault edit creds.txt
+  237  cat creds.txt
+  238  ansible-vault rekey creds.txt
+  239  ansible-vault decrypt creds.txt
+  240  cat creds.txt
+  241  ansible-vault encrypt creds.txt
+  242  cat creds.txt
+  243  ansible-vault view creds.txt
+  244  cat creds.txt
+  245  ll
+  246  ansible-vault encrypt playbook2.yml
+  247  cat playbook2.yml
+  248  ansible-playbook playbook2.yml
+  249  ansible-vault decrypt playbook2.yml
+  250  ansible-playbook playbook2.yml
+  251  vim playbook2.yml
+  252  ansible-playbook playbook2.yml
+  253  ansible all -a "ls"
+  254  cat playbook2.yml
+  255  ansible all -a "yum install pip -y"
+  256  vim playbook2.yml
+  257  ansible-playbook playbook2.yml
+  258  vim playbook2.yml
+  259  ansible-playbook playbook2.yml
+  260  vim playbook2.yml
+  261  ansible-playbook playbook2.yml
+  262  vim playbook2.yml
+  263  ansible all -a "yum remove httpd* tree* docker* -y"
+  264  ansible-playbook playbook2.yml
+  265  cat playbook2.yml
+  266  history
+
+
+=====================================================================================
