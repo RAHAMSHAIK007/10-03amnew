@@ -624,3 +624,153 @@ HISTORY:
 
 
 =====================================================================================
+
+DAY-05:
+
+ROLES: Managing playbooks into a directory structure.
+diving the playbooks.
+we can encapsulate the data.
+
+
+
+mkdir playbooks
+.
+├── master.yml
+└── roles
+    ├── role1
+    │   └── tasks
+    │       └── main.yml
+    ├── role2
+    │   └── tasks
+    │       └── main.yml
+    └── role3
+        └── tasks
+            └── main.yml
+
+vim roles/role1/tasks/main.yml
+vim roles/role2/tasks/main.yml
+vim roles/role3/tasks/main.yml
+
+==============================================================================================
+
+ANSIBLE GALAXY: Used to store roles.
+
+I wrote one role -- > upload to ansible-galaxy -- > other people can use it.
+
+if we install a role it will come with the skeleton of the structure.
+
+
+===================================================================================================
+ASYNCHRONOUS ACTIONS & POLLING :
+
+async: time limit
+poll: diff
+
+- hosts: all
+  tasks:
+    - name: INSTALLING TREE
+      shell: yum install tree -y
+
+    - name: stopping the task
+      command: sleep 20
+      async: 30
+      poll: 10
+
+    - name: INSTALLING docker
+      command: yum install docker -y
+
+- hosts: all
+  tasks:
+    - name: INSTALLING TREE
+      shell: yum install tree -y
+
+    - name: stopping the task
+      command: sleep 30
+      async: 20
+      poll: 10
+
+    - name: INSTALLING docker
+      command: yum install docker -y
+
+====================================================================================================
+7 servers:
+main-1, dev-2, test-2, prod-2
+
+All of them need to be executed on roles
+
+TASK-1: Install java [dev,test]
+TASK-2: Install docker with variable on runtime [prod,test]
+TASK-3: Create Users (Loops) [all]
+TASK-4: Install java using (conditions) [dev-1]
+TASK-5: Copy app.yml to all servers
+TASK-6: Deploy a basic webpage [dev-1,test-1,prod-1]
+
+
+
+
+
+history:
+
+  267  ll
+  268  rm -rf *
+  269  vim playbook.yml
+  270  ll
+  271  mkdir playbooks
+  272  cd playbooks/
+  273  ll
+  274  vim master.yml
+  275  ll
+  276  vim master.yml
+  277  ll
+  278  mkdir roles
+  279  mkdir roles/role1
+  280  mkdir roles/role2
+  281  mkdir roles/role3
+  282  yum instal tree -y
+  283  yum install tree -y
+  284  tree
+  285  mkdir roles/role1/tasks
+  286  mkdir roles/role2/tasks
+  287  mkdir roles/role3/tasks
+  288  tree
+  289  vim roles/role1/tasks/main.yml
+  290  vim roles/role2/tasks/main.yml
+  291  vim roles/role3/tasks/main.yml
+  292  vim master.yml
+  293  ansible-playbook master.yml
+  294  vim master.yml
+  295  ansible-playbook master.yml
+  296  ansible all -a "yum remove docker* -y"
+  297  ansible-playbook master.yml
+  298  tree
+  299  cd
+  300  rm -rf *
+  301  ll
+  302  ansible-galaxy init abc
+  303  ll
+  304  tree
+  305  cat abc/defaults/main.yml
+  306  ansible-galaxy search java
+  307  ansible-galaxy search java
+  308  ansible-galaxy search --author abessifi
+  309  ansible-galaxy install abessifi.docker
+  310  ll
+  311  ls -al
+  312  cd .ansible
+  313  ll
+  314  cd roles/
+  315  ll
+  316  cd'
+  317*
+  318  cd
+  319  vim playbook.yml
+  320  vim playbook.yml
+  321  ansible-playbook playbook.yml
+  322  ansible all -a "yum remove httpd* docker* -y"
+  323  ansible all -a "yum remove tree* docker* -y"
+  324  vim playbook.yml
+  325  ansible-playbook playbook.yml
+  326  cat playbook.yml
+  327  history
+
+
