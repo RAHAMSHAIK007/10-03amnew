@@ -773,4 +773,159 @@ history:
   326  cat playbook.yml
   327  history
 
+===============================================================================================
+
+DAY-06:
+
+ANSIBLE STRATEGIES: it is mainly two types
+
+1. linear: this will execute the first task on server-1, server-2 & second task again on server-1, server-2
+2. free: it will not follow the order 
+
+
+cat playbook1.yml
+- hosts: dev
+  strategy: linear
+  tasks:
+    - name: INSTALLING HTTPD
+      shell: yum install httpd -y
+
+    - name: INSTALLING MAVEN
+      command: yum install maven -y
+
+
+cat playbook2.yml
+- hosts: dev
+  strategy: free
+  tasks:
+    - name: INSTALLING TREE
+      shell: yum install tree -y
+
+    - name: INSTALLING docker
+      command: yum install docker -y
+
+=================================================================================================================
+
+JINJA2-TEMPLATES: Used to produce the customized outputs.
+
+
+
+=================================================================================================================
+
+DEBUG MODULE: To print the message 
+
+- hosts: dev
+  tasks:
+    - debug:
+        msg: "hai all good morning"
+
+
+
+vars inside the debug moudle:
+
+- hosts: dev
+  vars:
+    name: raham
+    loc: hyderabad
+  tasks:
+    - debug:
+        msg: "hai all good morningi, i'm {{name}}, im residing on {{loc}}"
+
+=================================================================================================================
+
+LOOKUPS: Used to get data form files, databases, key/value stores, APIs, and other services.
+
+
+cat playbook3.yml
+- hosts: dev
+  vars:
+    dns: "{{lookup('file', '/root/dns.txt') }}"
+  tasks:
+    - debug:
+        msg: "hai my dns values are {{dns}}"
+
+cat dns.txt
+dns-1: ec2-54-208-53-173.compute-1.amazonaws.com
+dns-2: ec2-44-211-41-55.compute-1.amazonaws.com
+
+
+cat playbook3.yml
+- hosts: dev
+  vars:
+    ami: "{{lookup('file', '/root/ami.txt') }}"
+  tasks:
+    - debug:
+        msg: "hai my ami values are {{ami}}"
+
+cat ami.txt
+dev-1: ami-06a0cd9728546d178
+dev-2: ami-06a0cd9728546d178
+
+=======================================================================================================================
+
+
+DEPLOYMENT:
+
+- hosts: test
+  strategy: linear
+  tasks:
+    - name: installing httpd
+      yum: name=httpd state=present
+
+    - name: starting the web server
+      service: name=httpd state=started
+
+    - name: git checkout
+      git:
+        repo: "https://github.com/RAHAMSHAIK007/devopsbyrhama.git"
+        dest: "/var/www/html/"
+
+HISTORY:
+
+ 317  cd
+  318  vim playbook.yml
+  319  vim playbook.yml
+  320  ansible-playbook playbook.yml
+  321  ansible all -a "yum remove httpd* docker* -y"
+  322  ansible all -a "yum remove tree* docker* -y"
+  323  vim playbook.yml
+  324  ansible-playbook playbook.yml
+  325  cat playbook.yml
+  326  history
+  327  cat dns.txt
+  328  vim ami.txt
+  329  ll
+  330  vim playbook3.yml
+  331  ansible-playbook playbook.yml
+  332  ansible-playbook playbook3.yml
+  333  cat playbook3.yml
+  334  cat ami.txt
+  335  vim deployment.yml
+  336  cat deployment.yml
+  337  ansible-playbook deployment.yml
+  338  vim deployment.yml
+  339  ansible-playbook deployment.yml
+  340  vim deployment.yml
+  341  ansible-playbook deployment.yml
+  342  cat dns.txt
+  343  vim deployment.yml
+  344  ansible-playbook deployment.yml
+  345  cat deployment.yml
+  346  ansible-playbook deployment.yml
+  347  ansible -m setup dev[0]
+  348  ansible -m setup test[0]
+  349  ansible -m setup test[0] | grep {{ ansible_processor_cores }}
+  350  ansible -m setup test[0] {{ ansible_processor_cores }}
+  351  ansible -m setup -a "filter=ansible_processor_cores" dev[0]
+  352  ansible -m setup -a "filter=ansible_processor_core" dev[0]
+  353  ansible -m setup dev[0]
+  354  ansible -m setup -a "filter=ansible_processor_cores" dev[0]
+  355  ansible -m setup dev[0] | grep -i cpu
+  356  ansible -m setup dev[0] | grep -i family
+  357  ansible -m setup -a "filter=ansible_os_family" dev[0]
+  358  ansible -m setup -a "filter=ansible_os_famil" dev[0]
+  359  cat deployment.yml
+  360  history
+
+
 
