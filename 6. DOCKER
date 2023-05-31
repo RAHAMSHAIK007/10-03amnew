@@ -52,7 +52,11 @@ docker ps -a  : to list all the containers
 docker ps : to list running containers only
 docker run --name raham1 ubuntu : to give the name for container
 docker run -it --name raham2 ubuntu : to go inside of a container
+(it = interactive terminal, will go inside container, -d means detach mode will not go inside the container)
 cat /etc/os-release : to see the flavour of linux
+docker inspect cont-name : to see the full infromation of a container.
+docker attach cont-name : to go inside the container.
+
 
 inside container: note: in ubuntu pkg manager is apt (advance package tool)
 apt update -y
@@ -78,9 +82,129 @@ each component is on CAPITAL letter.
 
 write Docker file -- > Build -- > Image
 
+docker build -t image-name .
 
+FROM : Used for base image
+RUN  : Used to execute commands (During image creation)
+CMD  : Used to execute commands (During Container creation)
+COPY : used to copy local files to container
+ADD : used to files on internet to container & used for exctraction of files.
+WORKDIR : Takes you to the desried directory ( defaut / = /tmp)
+LABEL : Used to attach labels to containers like email, author ----
+ENV   : To pass environment variables (inside the containers)
+args  : to pass value (outside of container)
 
+EXAMPLE-1:
 
+FROM ubuntu
+RUN apt update -y
+RUN apt install maven -y
+RUN mkdir raham
+RUN touch raham/abc.txt
+================================================
+EXAMPLE-2:
+FROM ubuntu
+RUN apt update -y
+RUN apt install maven -y
+RUN mkdir raham
+RUN touch raham/abc.txt
+COPY index.html /tmp
+COPY apache-maven-3.6.3-bin.tar.gz /tmp
+ADD https://dlcdn.apache.org/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz /opt
+=======================================================
+EXAMPLE-3:
+FROM ubuntu
+RUN apt update -y
+RUN apt install maven -y
+RUN mkdir raham
+RUN touch raham/abc.txt
+WORKDIR /tmp
+==========================
+EXAMPLE-4:
+FROM ubuntu
+RUN apt update -y
+RUN apt install maven -y
+RUN mkdir raham
+RUN touch raham/abc.txt
+LABEL user raham
+ENV client swiggy
 
+HISTORY:
 
+    1  yum install docker -y
+    2  systemctl restart docker.service
+    3  systemctl status docker.service
+    4  docker -v
+    5  docker version
+    6  docker pull ubuntu
+    7  docker images
+    8  docker run ubuntu
+    9  docker ps -a
+   10  docker run --name raham1 ubuntu
+   11  docker ps -a
+   12  docker run -it --name raham2 ubuntu
+   13  docker ps -a
+   14  docker ps
+   15  docker commit raham2 swiggy:v1
+   16  docker images
+   17  docker run -it --name raham3 swiggy:v1
+   18  ll
+   19  vim Dockerfile
+   20  docker build -t swiggy:v2 .
+   21  cat Dockerfile
+   22  docker images
+   23  docker ps -a
+   24  docker run -it --name raham4 swiggy:v1 /bin/bash
+   25  docker run -it --name raham5 swiggy:v2 /bin/bash
+   26  vim Dockerfile
+   27  docker build -t swiggy:v2 .
+   28  docker run -it --name raham6 swiggy:v2 /bin/bash
+   29  docker run -it --name raham7 swiggy:v2
+   30  mysql --version
+   31  vim index.html
+   32  ll
+   33  vim Dockerfile
+   34  wget https://dlcdn.apache.org/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+   35  ll
+   36  vim Dockerfile
+   37  docker build -t swiggy:v3 .
+   38  ll
+   39  vim Dockerfile
+   40  docker build -t swiggy:v3 .
+   41  docker run -it --name raham8 swiggy:v3
+   42  docker ps -a
+   43  docker start raham8
+   44  docker ps -a
+   45  vim Dockerfile
+   46  docker run -it --name raham8 swiggy:v3
+   47  docker build -t swiggy:v3 .
+   48  docker run -it --name raham9 swiggy:v3
+   49  vim Dockerfile
+   50  docker build -t swiggy:v3 .
+   51  docker run -it --name raham10 swiggy:v1
+   52  docker run -it --name raham11 swiggy:v3
+   53  vim Dockerfile
+   54  docker build -t swiggy:v3 .
+   55  docker images
+   56  docker ps -a
+   57  docker inspect raham11
+   58  docker run -itd --name raham12 swiggy:v3
+   59  dockr ps -a
+   60  dockrr ps -a
+   61  docker ps -a
+   62  docker inspect raham12
+   63  docker inspect raham12 | grep -i label
+   64  docker inspect raham12 | grep -i labels
+   65  docker inspect raham12 | grep -i raham
+   66  vim Dockerfile
+   67  docker build -t swiggy:v3 .
+   68  docker run -itd --name raham13 swiggy:v3
+   69  docker ps -a
+   70  docker attach raham13
+   71  docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:tag
+   72  docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:8.0.33
+   73  docker ps -a
+   74  history
+
+=============================================================================================================================================================
 
