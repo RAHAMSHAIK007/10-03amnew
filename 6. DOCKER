@@ -34,5 +34,53 @@ HOST: The place where you installed docker.
 DAEMON: Deals with docker componets(images, containers, volumes ----). it is inside docker host.
 REGISTRY: It stores all the Images.
 
+============================================
+
+DAY-02:
+Installation:
+yum install docker -y
+systemctl restart docker.service
+systemctl status docker.service
+docker version
+
+DOCKER COMMANDS:
+
+docker pull ubuntu: to get ubuntu image from registry
+docker images : to list the images 
+docker run ubuntu : to create a conatiners
+docker ps -a  : to list all the containers
+docker ps : to list running containers only
+docker run --name raham1 ubuntu : to give the name for container
+docker run -it --name raham2 ubuntu : to go inside of a container
+cat /etc/os-release : to see the flavour of linux
+
+inside container: note: in ubuntu pkg manager is apt (advance package tool)
+apt update -y
+apt install maven -y
+apt install mysql-server -y
+mkdir raham & touch abc.txt
+raham2 (cont) -- > install maven,mysql db & files -- > image form container -- > image
+
+os level of virtualization --- > content inside the os will be on image now
+
+ctrl p q : to exit from container
+
+docker commit raham2 swiggy:v1     : to create image from container
+
+====================================================================================
+
+DOCKER FILE: 
+It is an automated method to create docker images.
+in docker file D must be captial.
+in single folder we need to have only one docker file.
+docker file will have some componets inside it.
+each component is on CAPITAL letter.
+
+write Docker file -- > Build -- > Image
+
+
+
+
+
 
 
