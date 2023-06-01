@@ -298,5 +298,299 @@ docker run -itd --name app1 -p 82:80 image
 
 82: container port & 80: image port (installed httpd -- > 80)
 
+
+index.html:
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
+}
+
+img.avatar {
+  width: 40%;
+  border-radius: 50%;
+}
+
+.container {
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)} 
+  to {-webkit-transform: scale(1)}
+}
+  
+@keyframes animatezoom {
+  from {transform: scale(0)} 
+  to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+
+<h2>DevOps By Raham V:2.0</h2>
+
+<button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
+
+<div id="id01" class="modal">
+  
+  <form class="modal-content animate" action="/action_page.php" method="post">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+      <img src="img_avatar2.png" alt="Avatar" class="avatar">
+    </div>
+
+    <div class="container">
+      <label for="uname"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="uname" required>
+
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="psw" required>
+        
+      <button type="submit">Login</button>
+      <label>
+        <input type="checkbox" checked="checked" name="remember"> Remember me
+      </label>
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+      <span class="psw">Forgot <a href="#">password?</a></span>
+    </div>
+  </form>
+</div>
+
+<script>
+// Get the modal
+var modal = document.getElementById('id01');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+
+</body>
+</html>
+
+
+HISTORY:
+
+ 1  yum install docker -y
+    2  docker pull ubuntu
+    3  docker version
+    4  docker images
+    5  systemctl status docker
+    6  systemctl start docker
+    7  systemctl status docker
+    8  docker images
+    9  docker pull ubuntu
+   10  vim Dockerfile
+   11  docker images
+   12  docker build -t raham:v1 .
+   13  docker images
+   14  docker run -it --name cont1 raham:v1
+   15  docker ps -a
+   16  docker run -it --name cont2 --volumes-from=cont1 --privileged=true  ubuntu
+   17  docker ps -a
+   18  docker attach cont1
+   19  cat Dockerfile
+   20  docker run -it --name cont3 -v volume2 ubuntu
+   21  docker run -it --name cont4 --volumes-from=cont3 --priviliged=true ubuntu
+   22  docker ps -a
+   23  docker run -it --name cont4 --volumes-from=cont3 --privileged=true ubuntu
+   24  docker attach cont3
+   25  docker volumes ls
+   26  docker volume ls
+   27  docker volume create raham1
+   28  docker volume ls
+   29  docker inspect cont1
+   30  docker volume inspect raham1
+   31  cd /var/lib/docker/volumes/raham1/_data
+   32  ll
+   33  touch mountfiles{1..5}
+   34  vim mountfiles1
+   35  docker run -it --name cont5 --mount source=raham1,destination=/raham1 ubuntu
+   36  ll
+   37  docker run -it --name cont6 --mount source=raham1,destination=/abcd ubuntu
+   38  LL
+   39  ll
+   40  cp * -R /root/
+   41  cd /root/
+   42  ll
+   43  docker volume ks
+   44  docker volume ls
+   45  docker volume inspect raham1
+   46  cd /var/lib/docker/volumes/raham1/_data
+   47  ll
+   48  CD
+   49  cd
+   50  cd /home/ec2-user/
+   51  ll
+   52  ls -al
+   53  touch hostfiles{1..5}
+   54  ll
+   55  docker ps
+   56  pwd
+   57  ls
+   58  docker run -it --name cont7 -v /home/ec2-user:/xyz ubuntu
+   59  ll
+   60  docker info
+   61  docker system
+   62  docker system df
+   63  docker volume create raham2
+   64  docker system df
+   65  cd
+   66  docker system df -v
+   67  docker run -it --name cont6 --mount source=raham1,destination=/abcdef ubuntu
+   68  docker pull jenkins/jenkis:lts
+   69  docker pull jenkins/jenknis:lts
+   70  docker pull jenkins/jenkins:lts
+   71  docker pull centos:latest
+   72  docker pull amazonlinux:latest
+   73  docker system df -v
+   74  docker system prune
+   75  docker system df -v
+   76  docker system prune
+   77  docker system df -v
+   78  docker system
+   79  docker system COMMAND --help
+   80  docker system prune --help
+   81  docker system prune --volumes
+   82  docker system prune --images
+   83  docker system prune --all
+   84  docker images
+   85  docker run -it --name jenkins jenkins/jenkins:lts
+   86  docker images
+   87  docker pull jenkins/jenkins:lts-jdk11
+   88  docker images
+   89  docker run -it --name jenkins1 jenkins/jenkins:lts-jdk11
+   90  docker pull jenkins/jenkins:2.401.1-lts-jdk11
+   91  docker run -it --name cont8 jenkins/jenkins:2.401.1-lts-jdk11
+   92  docker run -it --name cont9 -p 8080:8080 jenkins/jenkins:2.401.1-lts-jdk11
+   93  docker images
+   94  docker ps -a
+   95  ll
+   96  rm -rf *
+   97  vim Dockerfile
+   98  vim index.html
+   99  docker build -t r:v1 .
+  100  docker run -itd --name app1 -p 80:90 r:v1
+  101  docker ps -a
+  102  docker run -itd --name app1 -p 90:80 r:v1
+  103  docker run -itd --name app2 -p 90:80 r:v1
+  104  docker stop app1 app2
+  105  docker rm  app1 app2
+  106  docker run -itd --name app1 -p 80:80 r:v1
+  107  docker ps -a
+  108  docker run -itd --name app1 -p 81:80 r:v1
+  109  docker run -itd --name app2 -p 81:80 r:v1
+  110  docker run -itd --name app3 -p 82:80 r:v1
+  111  cat Dockerfile
+
 ==================================================================================================== 
 
