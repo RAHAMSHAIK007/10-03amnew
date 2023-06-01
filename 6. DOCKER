@@ -208,3 +208,95 @@ HISTORY:
 
 =============================================================================================================================================================
 
+DAY-03:
+
+VOLUMES: 
+
+By default when we create a volume the data is also going store on host.
+
+PART-1 (CONT -- > CONT)
+
+1. DOCKER FILE
+
+FROM ubuntu
+VOLUME ["/volume1"]
+
+docker build -t raham:v1 .
+docker run -it --name cont1 raham:v1
+crerate some files inside cont-1
+docker run -it --name cont2 --volumes-from=cont1 --privileged=true ubuntu
+
+2. FROM RUNTIME 
+
+docker run -it --name cont3 -v volume2 ubuntu
+cd volume2  -- > create some files
+docker run -it --name cont4 --volumes-from=cont3 --privileged=true ubuntu
+
+3. FROM COMMANDS (Volume Mounting)
+
+docker volume ls
+docker volume create raham1
+docker volume inspect raham1
+cd /var/lib/docker/volumes/raham1/_data
+create some files 
+docker run -it --name cont5 --mount source=raham1,destination=/raham1 ubuntu
+
+
+PART-2: (CONT -- > LOCAL)
+
+CONT --- > CONT COPIED THE FILES
+I WANT TO COPY CONTENT FROM CONTAINER TO MY LOCAL 
+docker volume ls
+docker volume inspect raham1
+cd /var/lib/docker/volumes/raham1/_data
+cp * -R /root/
+
+PART-3: (LOCAL -- > CONT)
+
+1. Dockerfile
+
+2. 
+cd /home/ec2-user
+touch file{1..5}
+docker run -it --name cont7 -v /home/ec2-user:/xyz ubuntu
+cd /xyz -- > 11 -- > create files -- > local -- >
+
+================================================================================
+
+DOCKER SYSTEM COMMANDS: To show the memory utilization of Docker Components.
+
+docker info
+docker system df
+docker system df -v
+docker system prune --all  : Remove all unused images not just dangling ones
+docker system prune --force: Do not prompt for confirmation
+docker system prune --volumes : To remove unused volumes
+
+
+==========================================================================
+
+JENKINS SETUP USING DOCKER IMAGES:
+
+docker run -it --name jenkins jenkins/jenkins:lts
+
+
+==========================================================================
+
+DEPLOYMENT:
+
+vim Dockerfile
+
+FROM ubuntu
+RUN apt-get update -y
+RUN apt-get install apache2 -y
+COPY index.html /var/www/html/
+CMD ["/usr/sbin/apachectl", "-D", "FOREGROUND"]
+
+
+docker build -t image:v1 .
+docker run -itd --name app1 -p 82:80 image
+
+82: container port & 80: image port (installed httpd -- > 80)
+
+==================================================================================================== 
+
