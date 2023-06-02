@@ -594,3 +594,282 @@ HISTORY:
 
 ==================================================================================================== 
 
+DAY-04:
+
+DOCKER COMPOSE: Its a tool on docker used to create multiple containers at a single time.
+
+COMPOSE FILE: we will give the infromation of the containers (Image, Port, Volume -----)
+it is on YAML Format Which works on KEY-VALUE Pair.
+
+HOW IT WORKS:
+
+IMAGE -- > DOCKER FILE & INDEX.HTML
+CONTAINER -- > COMPOSE.YML
+
+
+Dockerfile
+
+FROM ubuntu
+RUN apt update -y
+RUN apt install apache2 -y
+COPY index.html /var/www/html
+CMD ["/usr/sbin/apachectl", "-D", "FOREGROUND"]
+
+docker-compose.yml
+
+version: '3'
+services:
+  train:
+    image: train:v1
+    ports:
+      - "8000:80"
+    volumes:
+      - "trainvolume"
+  movies:
+    image: movies:v1
+    ports:
+      - "8001:80"
+    volumes:
+      - "movievolume"
+  recharge:
+    image: recharge:v1
+    ports:
+      - "8002:80"
+    volumes:
+      - "rechargevolume"
+
+
+COMMANDS:
+
+docker-compose ps
+docker-compose stop
+docker-compose start
+docker-compose pause
+docker-compose unpause
+docker-compose down (stop -- > delete)
+docker-compose up -d
+docker-compose top
+docker-compose images
+docker-compose logs
+
+
+DOCKER HUB: To store our images on central
+
+1. CREATE IMAGE & REPO
+2. TAG IMAGE (docker tag recharge:v1 apn2993/paytm)
+3. docker login (username & password)
+4. docker push apn2993/paytm
+
+NOTE: DockerHub will support only image for one repo.
+
+NETWORK:
+
+Docker networks are used to make a communication between the multiple containers that are running on same or different docker hosts. We have different types of docker networks.
+Bridge Network
+Host Network
+None network
+Overlay network
+
+BRIDGE NETWORK: It is a default network that container will communicate with each other within the same host.
+
+HOST NETWORK: When you Want your container IP and ec2 instance IP same then you use host network
+
+NONE NETWORK: When you don’t Want The container to get exposed to the world, we use none network. It will not provide any network to our container.
+
+OVERLAY NETWORK: Used to communicate containers with each other across the multiple docker hosts.
+
+To create a network: docker network create network_name
+To see the list: docker network ls
+To delete a network: docker network rm network_name
+To inspect: docker network inspect network_name
+To connect a container to the network: docker network connect network_name container_id/name
+apt install iputils-ping -y : command to install ping checks
+To disconnect from the container: docker network disconnect network_name container_name
+To prune: docker network prune
+
+HISTORY:
+
+   12  yum install docker -y
+   13  systemctl start docker
+   14  systemctl status docker
+   15  yum install docker-compose -y
+   16  sudo curl -L "https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+   17  ls /usr/local/bin/
+   18  sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+   19  sudo chmod +x /usr/local/bin/docker-compose
+   20  docker-compose version
+   21  vim docker-compose.yml
+   22  vim Dockerfile
+   23  vim index.html
+   24  docker build -t train:v1 .
+   25  vi  docker-compose.yml
+   26  docker-compose up -d
+   27  docker ps
+   28  vim docker-compose.yml
+   29  vim index.html
+   30  docker build -t movies:v1 .
+   31  vim docker-compose.yml
+   32  docker-compose up -d
+   33  docker ps
+   34  vim index.html
+   35  docker build -t recharge:v1 .
+   36  vim docker-compose.yml
+   37  docker-compose up -d
+   38  docker ps
+   39  cat Dockerfile
+   40  cat docker-compose.yml
+   41  docker-compose ps
+   42  docker images
+   43  docker-compose images
+   44  docker-compose logs
+   45  docker-compose events
+   46  docker-compose ps
+   47  docker-compose stop
+   48  docker-compose ps
+   49  docker-compose start
+   50  docker-compose pause
+   51  docker-compose unpause
+   52  docker-compose down4
+   53  docker-compose down
+   54  docker-compose ps
+   55  docker-compose up -d
+   56  docker-compose ps
+   57  docker-compose scale root_movies_1 --replicas=2
+   58  docker-compose up -d --scale=2
+   59  docker-compose up -d --scale movies=5
+   60  docker-compose ports
+   61  docker-compose port
+   62  docker-compose ls
+   63  docker-compose top
+   64  docker-compose service ls
+   65  docker-compose service
+   66  docker-compose services
+   67  docker-compose  config
+   68  docker images
+   69  docker tag apn2993/paytm recharge:v1
+   70  docker tag recharge:v1 apn2993/paytm
+   71  docker images
+   72  docker push apn2993/paytm
+   73  docker login
+   74  docker push apn2993/paytm
+   75  docker images
+   76  docker tag movies:v1 apn2993/abcd
+   77  docker images
+   78  docker push apn2993/abcd
+   79  docker inspect movies:v1
+   80  docker system df -v
+   81  docker network ls
+   82  docker ps
+   83  docker network ls
+   84  docker inspect 48da4552b779
+   85  docker ps
+   86  docker inspect e7b7cb67ef74
+   87  docker inspect e7b7cb67ef74 | grep -i network
+   88  docker network ls
+   89  docker network create paytm
+   90  docker network ls
+   91  docker network inspect paytm
+   92  docker ps -a
+   93  docker network inspect paytm
+   94  docker network ls
+   95  docker ps
+   96  docker network connect paytm e7b7cb67ef74
+   97  docker network inspect paytm
+   98  docker network connect paytm f5451a51caed
+   99  docker network inspect paytm
+  100  docker network rm paytm
+
+
+
+HISTORY:
+
+2  yum install docker -y
+   13  systemctl start docker
+   14  systemctl status docker
+   15  yum install docker-compose -y
+   16  sudo curl -L "https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+   17  ls /usr/local/bin/
+   18  sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+   19  sudo chmod +x /usr/local/bin/docker-compose
+   20  docker-compose version
+   21  vim docker-compose.yml
+   22  vim Dockerfile
+   23  vim index.html
+   24  docker build -t train:v1 .
+   25  vi  docker-compose.yml
+   26  docker-compose up -d
+   27  docker ps
+   28  vim docker-compose.yml
+   29  vim index.html
+   30  docker build -t movies:v1 .
+   31  vim docker-compose.yml
+   32  docker-compose up -d
+   33  docker ps
+   34  vim index.html
+   35  docker build -t recharge:v1 .
+   36  vim docker-compose.yml
+   37  docker-compose up -d
+   38  docker ps
+   39  cat Dockerfile
+   40  cat docker-compose.yml
+   41  docker-compose ps
+   42  docker images
+   43  docker-compose images
+   44  docker-compose logs
+   45  docker-compose events
+   46  docker-compose ps
+   47  docker-compose stop
+   48  docker-compose ps
+   49  docker-compose start
+   50  docker-compose pause
+   51  docker-compose unpause
+   52  docker-compose down4
+   53  docker-compose down
+   54  docker-compose ps
+   55  docker-compose up -d
+   56  docker-compose ps
+   57  docker-compose scale root_movies_1 --replicas=2
+   58  docker-compose up -d --scale=2
+   59  docker-compose up -d --scale movies=5
+   60  docker-compose ports
+   61  docker-compose port
+   62  docker-compose ls
+   63  docker-compose top
+   64  docker-compose service ls
+   65  docker-compose service
+   66  docker-compose services
+   67  docker-compose  config
+   68  docker images
+   69  docker tag apn2993/paytm recharge:v1
+   70  docker tag recharge:v1 apn2993/paytm
+   71  docker images
+   72  docker push apn2993/paytm
+   73  docker login
+   74  docker push apn2993/paytm
+   75  docker images
+   76  docker tag movies:v1 apn2993/abcd
+   77  docker images
+   78  docker push apn2993/abcd
+   79  docker inspect movies:v1
+   80  docker system df -v
+   81  docker network ls
+   82  docker ps
+   83  docker network ls
+   84  docker inspect 48da4552b779
+   85  docker ps
+   86  docker inspect e7b7cb67ef74
+   87  docker inspect e7b7cb67ef74 | grep -i network
+   88  docker network ls
+   89  docker network create paytm
+   90  docker network ls
+   91  docker network inspect paytm
+   92  docker ps -a
+   93  docker network inspect paytm
+   94  docker network ls
+   95  docker ps
+   96  docker network connect paytm e7b7cb67ef74
+   97  docker network inspect paytm
+   98  docker network connect paytm f5451a51caed
+   99  docker network inspect paytm
+  100  docker network rm paytm
+
