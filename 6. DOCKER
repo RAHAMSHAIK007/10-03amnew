@@ -872,4 +872,97 @@ HISTORY:
    98  docker network connect paytm f5451a51caed
    99  docker network inspect paytm
   100  docker network rm paytm
+  
+  
+  ==================================================================
+  
+  
+  DAY-05:
+  
+  SWARM: Used to manage contaienrs on multiple servers.
+MASTER: Used to create and distribute the containers.
+WORKER: Used to Store container.
+NOTE: To work with DS we need to enable Docker Engine.
+If we delete one container it will create onother.
+
+CLUSTER: Group of servers.
+REPLICA: Copy of the Conatiner.
+
+
+ 
+STEP-1: CRAETE 3 SERVERS (1 MANAGER, 2 WORKERS)
+STEP-2: SET HOSTNAMES (hostnamectl set-hostname manager/worker1/worker2) && sudo -i
+STEP-3: INSTALL AND START DOCKER
+STEP-4: SETUP A CLUSTER (Manager -- > token -- > copy to worker node)
+
+docker swarm init --advertise-addr 172.31.87.191 (PRIVATE IP)	
+
+docker node ls : TO list number of worker nodes
+docker service create --name paytm --publish 81:80 --replicas 3 rahamshaik/paytmmsmovies:latest
+docker sevice ls : To list the services
+docker service scale paytm=10 : To scale the services
+docker service ps paytm : To list containers of Paytm Service only
+docker service inspect paytm : To get the complet info of service
+docker service update --image rahamshaik/nitdevops:latest paytm : To update the image
+docker service rollback  paytm : To Rollback
+
+
+HISTORY:
+
+ 1  yum install docker -y
+    2  service docker start
+    3  service docker status
+    4  docker swarm init --advertise-addr 172.31.87.191
+    5  docker node ls
+    6  docker ps -a
+    7  docker run -itd --name cont1 rahamshaik/paytmmsmovies:latest
+    8  docker ps -a
+    9  docker stop 5b22923a6a1e
+   10  docker rm 5b22923a6a1e
+   11  docker ps -a
+   12  docker service create --name paytm -p 80:80 --replicas 3 rahamshaik/paytmmsmovies:latest
+   13  docker ps
+   14  docker service create --name paytm --publish 81:80 --replicas 3 rahamshaik/paytmmsmovies:latest
+   15  docker service ls
+   16  docker stop 1xiwvb7dqmb4
+   17  docker service rm 1xiwvb7dqmb4
+   18  docker service ls
+   19  docker service create --name paytm --publish 81:80 --replicas 3 rahamshaik/paytmmsmovies:latest
+   20  docker ps
+   21  docker service ls
+   22  docker service scale paytm=6
+   23  docker service ls
+   24  docker ps
+   25  docker service scale paytm=10
+   26  docker service ls
+   27  docker service paytm ps
+   28  docker service ps paytm
+   29  docker service scale paytm=3
+   30  docker service ps paytm
+   31  docker ps
+   32  docker stop 42f790d5d69a
+   33  docker rm 42f790d5d69a
+   34  docker ps
+   35  docker stop 015cee27558f
+   36  docker rm 015cee27558f
+   37  docker ps
+   38  docker run -itd --name cont1 ubuntu
+   39  docker ps
+   40  docker stop 39ce6ef358f4
+   41  docker rm 39ce6ef358f4
+   42  docker ps
+   43  docker service ls
+   44  docker service inspect paytm
+   45  docker service update --image rahamshaik/paytmmsdth:latest paytm
+   46  docker ps -a
+   47  docker service ls
+   48  docker service update --image rahamshaik/nitdevops:latest paytm
+   49  docker service ls
+   50  docker service rollback  paytm
+   51  docker service logs paytm
+   52  history
+
+
+
+========================================================================================================================================================================
 
