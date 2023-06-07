@@ -963,6 +963,59 @@ HISTORY:
    52  history
 
 
+=========================================
+
+DAY-07:
+
+
+docker run -dit --name cont_name --memory=250m --cpus="0.25" image_name
+to check: docker inspect cont_name | grep -i memory
+to check: docker inspect cont_name | grep -i cpus
+
+HISTORY:
+
+ 57  curl -L https://downloads.portainer.io/ce2-16/portainer-agent-stack.yml -o portainer-agent-stack.yml
+   58  ll
+   59  vim portainer-agent-stack.yml
+   60  docker stack ls
+   61  ls
+   62  docker stack deploy -c portainer-agent-stack.yml protainer
+   63  docker stack ls
+   64  docker ps
+   65  docker stack ls
+   66  docker stack ps courses
+   67  docker stack ps courses | grep -i Running
+   68  docker stack ps portainer | grep -i Running
+   69  docker stack ps protainer | grep -i Running
+   70  docker volume ls
+   71  docker service ls
+   72  docker ps -a
+   73  docker stack ls
+   74  docker ps
+   75  docker stop 346ceea27e06
+   76  docker rm 346ceea27e06
+   77  docker ps
+   78  docker stack ls
+   79  docker stack isspect courses
+   80  docker stack inspect courses
+   81  docker stack services  courses
+   82  docker service rm 2u134dvewo24
+   83  docker stack services  courses
+   84  docker stack rm courses
+   85  docker stack rm protainer
+   86  docker ps -a
+   87  lscpu
+   88  lsmem
+   89  docker ps -a
+   90  docker run -itd --name cont2 rahamshaik/azurereponit
+   91  docker ps -a
+   92  docker run -itd --name cont3 --memory=250mb --cpu="0.25" rahamshaik/azurereponit
+   93  docker run -itd --name cont3 --memory=250mb --cpus="0.25" rahamshaik/azurereponit
+   94  docker inspect cont3
+   95  docker inspect cont3 | grep -i cpus
+   96  docker inspect cont3 | grep -i memory
+   97  history
+
 
 ========================================================================================================================================================================
 
