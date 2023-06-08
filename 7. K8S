@@ -1,0 +1,53 @@
+DAY-01:
+
+POD: Group of containers
+it is the smallest unit of K8s that can be deployable.
+inside pod we have container 
+inside container we have application.
+
+POD CAN BE CREATED ON 2 WAYS.
+
+1. IMPERTAIVE: commands.
+2. DECLARATIVE: Manifest file.
+
+
+
+
+ 1  ll
+    2  mkdir abcd
+    3  cd abcd/
+    4  ll
+    5  vim minikube.sh
+    6  sh minikube.sh
+    7  kubectl run pod1 --image=rahamshaik/awsreponit:latest
+    8  kubectl get pods
+    9  kubectl get pod
+   10  kubectl get po
+   11  kubectl get po -o wide
+   12  kubectl descibe pod pod1
+   13  kubectl describe pod pod1
+   14  kubectl delete pod pod1
+   15  vim pod1.yml
+   16  kubectl create -f pod1.yml
+   17  kubectl get po
+   18  kubectl describe pod pod1
+   19  cat pod1.yml
+   20  kubectl api-resources
+   21  cat pod1.yml
+   22  history
+
+
+sudo apt update -y
+sudo apt upgrade -y
+sudo apt install curl wget apt-transport-https -y
+sudo curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+sudo curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo mv minikube-linux-amd64 /usr/local/bin/minikube
+sudo chmod +x /usr/local/bin/minikube
+sudo minikube version
+sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+sudo echo "$(cat kubectl.sha256) kubectl" | sha256sum --check
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+sudo minikube start --driver=docker --force
