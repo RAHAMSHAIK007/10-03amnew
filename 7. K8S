@@ -51,3 +51,135 @@ sudo curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.t
 sudo echo "$(cat kubectl.sha256) kubectl" | sha256sum --check
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 sudo minikube start --driver=docker --force
+
+
+============================================================================
+
+
+DAY-02:
+
+REPLICASET: it will create multiple copies or replicas of a pod.
+if we delete one pod RS will create another pod.
+
+replicaset --- > pods
+
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  labels:
+    app: swiggy
+  name: swiggy-rs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: swiggy
+  template:
+    metadata:
+      labels:
+        app: swiggy
+    spec:
+      containers:
+      - name: cont1
+        image: nginx
+======================================================================================================================================================
+
+
+DEPLOYMENT: It is used to update the application.
+it will track the changes of an application.
+
+deployment --- > replicaset --- > pods
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: swiggy
+  name: swiggy-deploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: swiggy
+  template:
+    metadata:
+      labels:
+        app: swiggy
+    spec:
+      containers:
+      - name: cont1
+        image: nginx:1.16
+        
+        
+ HISTORY:
+ 
+ 
+   1  mkdir abcd
+    2  cd abcd/
+    3  vim minikube.sh
+    4  sh minikube.sh
+    5  rm -rf *
+    6  vim abc.yml
+    7  kubectl create -f abc.yml
+    8  kubectl get po
+    9  kubectl delete po swiggy-rs-zqgqf
+   10  kubectl get po
+   11  kubectl delete pod swiggy-rs-z7667
+   12  kubectl get po
+   13  kubectl run zomato --image=nginx
+   14  kubectl run zomato1 --image=nginx
+   15  kubectl run zomato2 --image=nginx
+   16  kubectl get po
+   17  kubectl get po --show-labels
+   18  kubectl get replicaset
+   19  kubectl get rs
+   20  kubectl api-resources
+   21  kubectl get rs
+   22  kubectl desribe rs swiggy-rs
+   23  kubectl describe rs swiggy-rs
+   24  kubectl get rs
+   25  kubectl scale rs swiggy-rs --replicas=10
+   26  kubectl get rs
+   27  kubectl get po
+   28  kubectl scale rs swiggy-rs --replicas=5
+   29  kubectl get po
+   30  kubectl delete rs swiggy-rs
+   31  kubectl get po
+   32  kubectl delete pods -n default
+   33  kubectl delete all -n default
+   34  kubectl delete all -n=default
+   35  kubectl get po
+   36  kubectl delete pod zomato zomato1 zomato2
+   37  kubectl get po
+   38  vim abc.yml
+   39  kubectl create -f abc.yml
+   40  kubectl get deployment
+   41  kubectl get rs
+   42  kubectl get po
+   43  kubectl delete pod swiggy-deploy-64cd94d7f4-p9ztf
+   44  kubectl get po
+   45  kubectl describe deploy
+   46  vim abc.yml
+   47  kubectl create -f abc.yml
+   48  kubectl apply -f abc.yml
+   49  kubectl describe deploy
+   50  vim abc.yml
+   51  kubectl apply -f abc.yml
+   52  kubectl describe deploy
+   53  kubectl get po
+   54  kubectl rollout status deployment/swiggy-deploy
+   55  kubectl describe deploy
+   56  kubectl get deploy
+   57  kubectl get po
+   58  kubectl edit deploy swiggy-deploy
+   59  kubectl get deploy
+   60  kubectl get po
+   61  kubectl describe deploy
+   62  kubectl edit deploy swiggy-deploy
+   63  kubectl get po
+   64  kubectl edit deploy swiggy-deploy
+   65  kubectl get po
+   66  kubectl edit deploy swiggy-deploy
+   67  cat abc.yml
+   68  history
+
