@@ -183,3 +183,110 @@ spec:
    67  cat abc.yml
    68  history
 
+======================================================
+
+DAY-03: 
+
+kOps, also known as Kubernetes operations, is an open-source tool that helps you create, destroy, upgrade, and maintain a highly available, production-grade Kubernetes cluster. Depending on the requirement, kOps can also provision cloud infrastructure.
+kOps is mostly used in deploying AWS and GCE Kubernetes clusters. But officially, the tool only supports AWS. Support for other cloud providers (such as DigitalOcean, GCP, and OpenStack) are in the beta stage.
+
+ADVANTAGES:
+•	Automates the provisioning of AWS and GCE Kubernetes clusters
+•	Deploys highly available Kubernetes masters
+•	Supports rolling cluster updates
+•	Autocompletion of commands in the command line
+•	Generates Terraform and CloudFormation configurations
+•	Manages cluster add-ons.
+•	Supports state-sync model for dry-runs and automatic idempotency
+•	Creates instance groups to support heterogeneous clusters
+ALTERNATIVES:
+Amazon EKS , MINIKUBE, KUBEADM, RANCHER, TERRAFORM, HELM.
+
+IAM KEYS: Used to provide access for the kops to create infra.
+
+IAM -- > USERS -- > ADD USERS -- > NAME: kops  -- > NEXT -- > Set permissions: Set permission -- > AdministratorAccess -- > next -- > create
+users -- > security credentials -- > create Access keys -- > CLI -- > NEXT -- > CREATE ACCESS KEYS
+
+STEP-1:
+ATTACHING KOPS PERMISSIONS TO EC2:
+aws configure
+cd .aws 
+ll
+vim config
+vim credentials
+
+STEP-2: DOWNLOAD KOPS & KUBECTL 
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+wget https://github.com/kubernetes/kops/releases/download/v1.24.1/kops-linux-amd64
+chmod +x kops-linux-amd64 kubectl  # to provide executable permission of both files
+mv kubectl /usr/local/bin/kubectl  # all the user executed commands will be on bin folder
+mv kops-linux-amd64  /usr/local/bin/kops
+vim .bashrc
+export PATH=$PATH:/usr/local/bin/
+source .bashrc
+
+STEP-3: CREATING BUCKET (To store cluster information) bucket is an object-level store.
+aws s3api create-bucket --bucket nareshit0077.k8s.local --region us-east-1
+aws s3api put-bucket-versioning --bucket nareshit0077.k8s.local --region us-east-1 --versioning-configuration Status=Enabled
+export KOPS_STATE_STORE=s3://nareshit0077.k8s.local
+
+STEP-4: CREATING CLUSTER
+kops create cluster --name nareshit0077.k8s.local --zones us-east-1a  --master-size t2.medium --node-size t2.micro
+kops update cluster --name nareshit0077.k8s.local --yes --admin
+
+kops delete cluster --name nareshit0077.k8s.local --yes
+
+HISTORY:
+
+ 1  aws configure
+    2  cd .aws/
+    3  ll
+    4  vim config
+    5  vim credentials
+    6  cd
+    7  curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    8  ld
+    9  ls
+   10  wget https://github.com/kubernetes/kops/releases/download/v1.24.1/kops-linux-amd64
+   11  ls
+   12  ll
+   13  chmod +x kops-linux-amd64 kubectl
+   14  ll
+   15  mv kubectl /usr/local/bin/kubectl
+   16  ll
+   17  mv kops-linux-amd64 /usr/local/bin/kops
+   18  kops version
+   19  kubectl
+   20  vim .bashrc
+   21  source .bashrc
+   22  kops version
+   23  kubectl version
+   24  aws s3api create-bucket --bucket rahamssshaik09.k8s.local --region ap-south-1
+   25  aws s3api create-bucket --bucket nareshit0077.k8s.local --region ap-south-1
+   26  aws s3api create-bucket --bucket nareshit0077.k8s.local --region us-east-1
+   27  vim .aws/config
+   28  aws s3api put-bucket-versioning --bucket rahamssshaik09.k8s.local --region us-east-1 --versioning-configuration Status=Enabled
+   29  aws s3api put-bucket-versioning --bucket nareshit0077.k8s.local --region us-east-1 --versioning-configuration Status=Enabled
+   30  export KOPS_STATE_STORE=s3://nareshit0077.k8s.local
+   31  kops create cluster --name nareshit0077.k8s.local --zones us-east-1a  --master-size t2.medium --node-size t2.micro
+   32  kops get cluster
+   33  kops edit cluster nareshit0077.k8s.local
+   34  kops edit ig --name=nareshit0077.k8s.local master-us-east-1a
+   35   kops edit ig --name=nareshit0077.k8s.local nodes-us-east-1a
+   36  kops update cluster --name nareshit0077.k8s.local --yes --admin
+   37   kops validate cluster --wait 10m
+   38  kubectl get nodes
+   39  vim abc.yml
+   40  kubectl get no
+   41  ll
+   42  kubectl create -f abc.yml
+   43  kubectl get rs
+   44  kubectl get po
+   45  kubectl get po -o wide
+   46  kubectl scale rs swiggy-rs --replicas=10
+   47  kubectl get po -o wide
+   48  kubectl get no
+   49  kops get cluster
+   50  kubectl get cluster
+   51  kops delete cluster --name nareshit0077.k8s.local --yes
+   52  history
