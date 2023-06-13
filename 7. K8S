@@ -290,3 +290,260 @@ HISTORY:
    50  kubectl get cluster
    51  kops delete cluster --name nareshit0077.k8s.local --yes
    52  history
+   
+   =================================================================================================================
+   
+   DAY-04:
+   
+vim .bashrc
+export PATH=$PATH:/usr/local/bin/
+source .bashrc
+
+aws configure
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+wget https://github.com/kubernetes/kops/releases/download/v1.25.0/kops-linux-amd64
+chmod +x kops-linux-amd64 kubectl
+mv kubectl /usr/local/bin/kubectl
+mv kops-linux-amd64 /usr/local/bin/kops
+
+aws s3api create-bucket --bucket devops8899.k8s.local --region us-east-1
+aws s3api put-bucket-versioning --bucket devops8899.k8s.local --region us-east-1 --versioning-configuration Status=Enabled
+export KOPS_STATE_STORE=s3://devops8899.k8s.local
+kops create cluster --name devops8899.k8s.local --zones us-east-1a --master-count=1 --master-size t2.medium --node-count=2 --node-size t2.micro
+kops update cluster --name devops8899.k8s.local --yes --admin
+
+ClusterIP: A ClusterIP service provides a stable IP address and DNS name for pods within a cluster. 
+This type of service is only accessible within the cluster and is not exposed externally.
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: db
+  labels:
+    app: phonepay
+spec:
+  containers:
+    - name: cont1
+      image: rahamshaik/phonepaymovies:v1
+      ports:
+      - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+spec:
+  type: ClusterIP
+  selector:
+    app: phonepay
+  ports:
+    - port: 80
+      targetPort: 80
+
+
+NodePort: A NodePort service provides a way to expose a service on a static port on each node in the cluster. This type of service is accessible both within the cluster and externally, using the node's IP address and the NodePort. (NODEPORT: 30000-32767)
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: db
+  labels:
+    app: phonepay
+spec:
+  containers:
+    - name: cont1
+      image: rahamshaik/phonepaymovies:v1
+      ports:
+      - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+spec:
+  type: NodePort
+  selector:
+    app: phonepay
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30001
+
+LOAD BALANCER: A LoadBalancer service provides a way to expose a service externally, using a cloud provider's load balancer. This type of service is typically used when an application needs to handle high-traffic loads and requires automatic scaling and load balancing capabilities.
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: db
+  labels:
+    app: phonepay
+spec:
+  containers:
+    - name: cont1
+      image: rahamshaik/phonepaymovies:v1
+      ports:
+      - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+spec:
+  type: LoadBalancer
+  selector:
+    app: phonepay
+  ports:
+    - port: 80
+      targetPort: 80
+
+
+NAMESPACE: Used to isolate the environments.
+
+dev -- > test -- > prod
+
+default: whenever we create any resources will store on the default namespace.
+kube-node-lease: here node-1 can lease an object from node-2.
+kube-public: object can be accessible publically.
+kube-system: K8s creates some default objects that stores on kube-system.
+
+kubectl get all --namespace default
+kubectl get all --namespace kube-node-lease
+kubectl get all --namespace kube-public
+kubectl get all --namespace kube-system
+
+kubectl create ns dev
+kubectl config set-context --current --namespace=dev
+kubectl config view --minify | grep -i namespace
+
+kubectl run pod1 --image=nginx
+kubectl run pod2 --image=nginx
+kubectl run pod3 --image=nginx
+
+kubectl describe pod pod1| grep -i namespace
+kubectl describe pod pod2| grep -i namespace
+kubectl describe pod pod3| grep -i namespace
+
+kubectl create ns test
+kubectl config set-context --current --namespace=test
+kubectl config view --minify | grep -i namespace
+
+kubectl run pod4 --image=nginx
+kubectl run pod5 --image=nginx
+kubectl run pod6 --image=nginx
+
+kubectl describe pod pod4 | grep -i namespace
+kubectl describe pod pod5 | grep -i namespace
+kubectl describe pod pod6 | grep -i namespace
+
+
+kubectl get po --namespace dev
+kubectl delete pod pod1 --namespace dev
+kubectl get po --namespace dev
+
+kubectl delete ns dev
+kubectl delete ns test
+
+HISTORY:
+
+ 1  vim .bashrc
+    2  source .bashrc
+    3  vim kops.sh
+    4  sh kops.sh
+    5  vim kops.sh
+    6  sh kops.sh
+    7  vim kops.sh
+    8  sh kops.sh
+    9  kops validate cluster --wait 10m
+   10  cat kops.sh
+   11  export KOPS_STATE_STORE=s3://devops8899.k8s.local
+   12  kops validate cluster --wait 10m
+   13  kubectl get no
+   14  vim pod.yml
+   15  kubectl get po
+   16  kubectl get svc
+   17  kubectl create -f pod.yml
+   18  kubectl get po
+   19  kubectl get svc
+   20  kubectl describe pod db
+   21  kubectl get po
+   22  kubectl get po -o wide
+   23  curl https://44.193.17.61:80
+   24  curl https://44.193.17.61:80/
+   25  cat pod.yml
+   26  vim pod.yml
+   27  kubectl create -f pod.yml
+   28  kubectl get po
+   29  kubectl delete pod db
+   30  kubectl create -f pod.yml
+   31  vim pod.yml
+   32  kubectl delete pod db
+   33  kubectl create -f pod.yml
+   34  kubectl get svc
+   35  kubectl delete svc db
+   36  kubectl get svc
+   37  kubectl get svc,po
+   38  kubectl delete pod sb
+   39  kubectl delete pod db
+   40  kubectl get svc,po
+   41  kubectl create -f pod.yml
+   42  kubectl get svc,po
+   43  kubectl get po -o wide
+   44  ll
+   45  kubectl delete -f pod.yml
+   46  kubectl get svc,po
+   47  cat pod.yml
+   48  vi pod.yml
+   49  kubectl create -f pod.yml
+   50  kubectl get svc,po
+   51  kubectl describe svc db
+   52  kubectl delete -f pod.yml
+   53  cat pod.yml
+   54  kubectl get ns
+   55  kubectl get all --namespace default
+   56  kubectl get all --namespace kube-node-lease
+   57  kubectl get all --namespace kube-public
+   58  kubectl get all --namespace kube-system
+   59  kubectl get all --namespace default
+   60  kubectl create ns dev
+   61  kubectl get ns
+   62  kubectl config set-context --current --namespace=raham
+   63  kubectl config view --minify | grep namespace:
+   64  kubectl config view --minify
+   65  kubectl get ns
+   66  kubectl config set-context --current --namespace=dev
+   67  kubectl config view --minify
+   68  kubectl config view --minify | grep -i namespace
+   69  kubectl run pod1 --image=nginx
+   70  kubectl run pod2 --image=nginx
+   71  kubectl run pod3 --image=nginx
+   72  kubectl get po
+   73  kubectl describe pod pod1 | grep -i namespace
+   74  kubectl describe pod pod2 | grep -i namespace
+   75  kubectl describe pod pod3 | grep -i namespace
+   76  kubectl get po
+   77  kubectl create ns test
+   78  kubectl config set-context --current --namespace=test
+   79  kubectl config view --minify | grep -i namespace
+   80  kubectl run pod4 --image=nginx
+   81  kubectl run pod5 --image=nginx
+   82  kubectl run pod6 --image=nginx
+   83  kubectl get po
+   84  kubectl get po --ns dev
+   85  kubectl get po --namespace dev
+   86  kubectl delete pod pod1 --namespace dev
+   87  kubectl get po --namespace dev
+   88  kubectl get ns
+   89  kubectl delete ns dev
+   90  kubectl delete ns test
+   91  kops get cluster
+   92  kops delete cluster --name devops8899.k8s.local --yes --admin
+   93  kops delete cluster --name devops8899.k8s.local --yes
+   94  cat kops.sh
+   95  history
+
+
