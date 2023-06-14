@@ -546,4 +546,149 @@ HISTORY:
    94  cat kops.sh
    95  history
 
+==========================
+
+DAY-05:
+
+PROBES: USED TO CHECK CONTAINER HEALTH.
+
+Readiness Probe: check pod is ready to serve or not.
+Liveness Probe: check the health of a running pod. 
+Startup Probe: check application is available or not before receiving the traffic.
+
+
+READINESS PROBE:
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: raham-ready
+spec:
+  containers:
+  - name: cont1
+    image: nginx
+    command:
+      - sleep
+      - "3600"
+    readinessProbe:
+      periodSeconds: 10
+      exec:
+        command:
+        - cat
+        - /root/app.yml
+    resources: {}
+
+kubectl apply -f pod.yml
+kubectl get po
+kubectl exec -it raham-ready -- touch /root/app.yml
+kubectl get po
+
+
+
+LIVENESS PROBE:
+
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-exec
+spec:
+  containers:
+  - name: liveness
+    image: registry.k8s.io/busybox
+    args:
+    - /bin/sh
+    - -c
+    - touch /tmp/healthy; sleep 30; rm -f /tmp/healthy; sleep 10
+    livenessProbe:
+      exec:
+        command:
+        - cat
+        - /tmp/healthy
+      initialDelaySeconds: 5
+      periodSeconds: 5
+
+
+periodSeconds: every 10 seconds it will check the health of the container.
+initialDelaySeconds: to start the container
+
+
+STARTUPPROBE: 
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: raham-probes
+  labels:
+    role: web
+spec:
+  containers:
+  - name: nginx-probes
+    image: nginx
+    readinessProbe:
+      tcpSocket:
+        port: 80
+      initialDelaySeconds: 5
+      periodSeconds: 10
+    livenessProbe:
+      tcpSocket:
+        port: 80
+      initialDelaySeconds: 20
+      periodSeconds: 20
+
+
+ 96  kops
+   97  kubectl
+   98  aws s3 ls
+   99  export KOPS_STATE_STORE=s3://rahamssshaik09.k8s.local
+  100  kops create cluster --name rahams.k8s.local --zones us-east-1a --master-count=1 --master-size t2.medium --node-count=2 --node-size t2.micro
+  101  export KOPS_STATE_STORE=s3://devops8899.k8s.local
+  102  kops create cluster --name devops8899.k8s.local --zones us-east-1a --master-count=1 --master-size t2.medium --node-count=2 --node-size t2.micro
+  103   kops update cluster --name devops8899.k8s.local --yes --admin
+  104  kops validate cluster --wait 10m
+  105  ll
+  106  rm -rf *
+  107  vim pod.yml
+  108  kubectl apply -f pod.yml
+  109  kubectl get po
+  110  kubectl describe pod raham-ready
+  111  cat pod.yml
+  112  kubectl describe pod raham-ready
+  113  vim pod.yml
+  114  kubectl delete pod raham-ready
+  115  kubectl apply -f pod.yml
+  116  vim pod.yml
+  117  kubectl apply -f pod.yml
+  118  kubectl get po
+  119  kubectl delete pod raham-ready
+  120  kubectl describe pod raham-ready
+  121  kubectl exec -it raham-ready -- touch /root/app.yml
+  122  kubectl get po
+  123  kubectl apply -f pod.yml
+  124  kubectl exec -it raham-ready -- touch /root/app.yml
+  125  kubectl apply -f pod.yml
+  126  kubectl get po
+  127  cat pod.yml
+  128  kubectl delete -f pod.yml
+  129  vim pod.yml
+  130  kubectl apply -f pod.yml
+  131  kubectl get po
+  132  kubectl watch pod liveness-exec
+  133*
+  134  kubectl get po
+  135  cat pod.yml
+  136  kubectl get po
+  137  kubectl describe pod liveness-exec
+  138  cat pod.yml
+  139  kubectl describe pod liveness-exec
+  140  cat pod.yml
+  141  kubectl delete -f pod.yml
+  142  vim pod.yml
+  143  kubectl apply -f pod.yml
+  144  kubectl get po
+  145  kubectl describe pod raham-probes
+  146  kubectl get po
+  147  cat pod.yml
+  148  history
 
