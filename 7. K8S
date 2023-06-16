@@ -879,4 +879,209 @@ HISTORY:
    79  echo "MC4wLjAuMDo0MzIx" | base64 -d
    80  echo "MC4wLjAuMDo0MzIx" | base64 --decode
 
+===================
+
+day-08:\
+
+Authentication: a person who can have access.
+Authorization: a person who can create.
+
+role: is a user/group with some permissions in a namespace.
+cluster role: a user/group with some permissions in the entire cluster.
+
+
+Role Binding: to attach a role to a user/group in a namespace.
+cluster role Binding: to attach a role to a user/group in the entire cluster.
+
+
+Service account: to provide access for resources.
+
+
+
+
+1.1 create Namespace
+kubectl create namespace raham
+kubectl get ns
+
+1.2. Create a Service Account
+Following is the way to create Service Account. I have assigned this Service Account into previously created rahasak namespace.
+vim one.yml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: raham-serviceaccount
+  namespace: raham
+kubectl apply -f one.yml
+kubectl get serviceaccounts -n raham
+
+
+
+1.3. Create Role 
+vim two.yml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: raham
+  name: pod-reader
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "watch", "list"]
+
+kubectl apply -f two.yml
+kubectl get roles -n raham
+kubectl describe role pod-reader -n raham
+
+
+1.4. Create RoleBinding: This Role can be assigned to Service Account via RoleBinding. So that Service Account can only list, get, watch pods in the raham namespace.
+
+vim three.yml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pod-reader-binding
+  namespace: raham
+roleRef: # points to the Role
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: pod-reader # name of Role
+subjects: # points to the ServiceAccount
+- kind: ServiceAccount
+  name: raham-serviceaccount # service account to bind to
+  namespace: raham # ns of service account
+
+
+
+vim four.yml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: raham-pod
+  namespace: raham
+spec:
+  containers:
+  - image: nginx:latest
+    name: kubectl
+  serviceAccountName: raham-serviceaccount
+
+
+To give access for Deployment also:
+
+vim two.yml
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: raham
+  name: pod-reader
+rules:
+- apiGroups: [""]
+  resources: ["pods", "services"]
+  verbs: ["get", "watch", "list"]
+
+rules:
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+
+history:
+
+  1  mkdir k8s
+    2  cs k8s/
+    3  cd k8s/
+    4  vim minikube.sh
+    5  sh minikube.sh
+    6  kubectl get ns
+    7  kubectl create ns raham
+    8  kubectl get ns
+    9  vim serviceaccount.yml
+   10  kubectl create -f serviceaccount.yml
+   11  kubectl get svc
+   12  kubectl api-resources
+   13  kubectl api-resources | grep -i serviceaccounts
+   14  kubectl get sa
+   15  kubectl api-resources
+   16  vim role.yml
+   17  kubectl apply -f role.yml
+   18  kubectl get roles
+   19  kubectl get roles -n raham
+   20  kubectl get po -n raham
+   21  kubectl describe role pod-reader -n raham
+   22  vim rolebinding.yml
+   23  kubectl apply -f rolebinding.yml
+   24  vim permission.yml
+   25  kubectl apply -f permission.yml
+   26  kubectl get po
+   27  kubectl get po -n raham
+   28  kubectl get rs -n raham
+   29  kubectl exec -it --namespace=raham raham-pod -- /bin/bash
+   30  kubectl get pods -n raham
+   31  kubectl get pods -n svc
+   32  kubectl get pv -n raham
+   33  kubectl get cm -n raham
+   34  kubectl get pods -n raham
+   35  kubectl get pod raham-pod -n raham
+   36  kubectl delete pod raham-pod -n raham
+   37  kubectl get pods -n raham
+   38  ll
+   39  cat role
+   40  cat role.yml
+   41  vim role.yml
+   42  kubectl apply -f role.yml
+   43  kubectl describe role pod-reader -n raham
+   44  kubectl exec -it --namespace=raham raham-pod -- /bin/bash
+   45  kubectl create -f permission.yml
+   46  kubectl exec -it --namespace=raham raham-pod -- /bin/bash
+   47  kubectl get po,svc
+   48  kubectl get po,svc -n raham
+   49  kubectl get svc -n raham
+   50  kubectl delete pod raham-pod
+   51  kubectl delete pod raham-pod -n raham
+   52  kubectl config set-context --current --namepsace=raham
+   53  kubectl config set-context --current --namespace=raham
+   54  kubectl get minify
+   55  kubectl config minify
+   56  kubectl config --minify
+   57  kubectl config view --minify
+   58  kubectl create deploy abc --image=nginx
+   59  kubectl get deploy
+   60  kubectl get clusterrolebinding
+   61  kubectl delete ns raham
+   62  kubectl get ns
+   63  kubectl create namespace raham
+   64  kubectl get ns
+   65  vim one.yml
+   66  kubectl apply -f one.yml
+   67  vim two.yml
+   68  kubectl apply -f two.yml
+   69  kubectl describe role pod-reader -n raham
+   70  vim three.yml
+   71  kubectl apply -f three.yml
+   72  vim four.yml
+   73  kubectl apply -f four.yml
+   74  kubectl get pods -n raham
+   75  kubectl exec -it --namespace=raham raham-pod -- /bin/bash
+   76  kubectl auth can-i list pods --namespace raham
+   77  kubectl auth can-i get pods --namespace raham
+   78  kubectl auth can-i watch pods --namespace raham
+   79  kubectl auth can-i delete pods --namespace raham
+   80  kubectl auth can-i delete rs --namespace raham
+   81  kubectl auth can-i delete rs --namespace raham --as pod-reader
+   82  kubectl auth can-i watch pods --namespace raham --as pod-reader
+   83  kubectl auth can-i list pods --namespace raham --as pod-reader
+   84  kubectl get pv -n raham
+   85  kubectl get rs -n raham
+   86  vim two.yml
+   87  kubectl apply -f two.yml
+   88  kubectl describe role pod-reader -n raham
+   89  kubectl get po,svc
+   90  vim two.yml
+   91  kubectl apply -f two.yml
+   92  vim two.yml
+   93  kubectl apply -f two.yml
+   94  kubectl describe role pod-reader -n raham
+   95  cat two.yml
+   96  history
 
