@@ -1,0 +1,93 @@
+
+
+INFRASTRUCTURE: RESOURCES USED TO RUN OUR APPLICATION ON CLOUD.
+EX: SERVER, VPC, ELB, S3, ASG ETC-------
+
+CLOUD -- > AWS --- > MANUALLY 
+
+LIMITATIONS:
+1. Its time consuming.
+2. It will have chance of doing mistakes.
+3. Delaying the activites.
+
+AUTOMATION WAYS:
+1. CFT -- > CLOUDFORMATION TEMPLATE (JSON/YAML)
+2. ARM -- > AZURE RESOURCE MANAGER
+3. GDE -- > GOOGLE DEPLOY ENGINE
+
+2014 -- > MITCHELL HASIMOTO -- > TERRAFORM
+
+TERRAFORM -- > AWS, GCP, AZURE,
+
+TERRAFORM USES HCL LANGUAGE
+CONFIGURATION FILE: the files which have the resource information
+ex: .tf files
+
+terraform -- > servers < --- configure & deploy by ansible
+
+aws configure 
+
+terraform init	: to initalize the provider plugins.
+terraform plan	: to create the execution plan
+terraform apply	: to create the resources
+terraform destroy: to delete the resource
+
+
+statefile: it will store the resource infromation which is created by terraform only.
+terraform state list : to list the resources created by terraform.
+
+targe: it is used to delete one specific resource
+
+terraform destroy -target="aws_instance.one[2]"
+
+
+code:
+
+provider "aws" {
+region = "us-east-1"
+}
+
+resource "aws_instance" "one" {
+ami = "ami-04823729c75214919"
+instance_type = "t2.micro"
+count = 5
+}
+
+HISTORY:
+
+  1  yum install terraform -y
+    2  sudo yum install -y yum-utils
+    3  sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+    4  yum install terraform -y
+    5  terraform -v
+    6  mkdir swiggy
+    7  cd swiggy/
+    8  aws configure
+    9  ls -al
+   10  cd
+   11  ls -al
+   12  cd swiggy/
+   13  vim main.tg
+   14  vim main.tf
+   15  terraform init
+   16  ll
+   17  ls -al
+   18  terraform plan
+   19  terraform apply
+   20  vim main.tf
+   21  terraform apply
+   22  cat main.tf
+   23  terraform destroy
+   24  vim main.tf
+   25  terraform plan
+   26  terraform apply
+   27  ll
+   28  vim terraform.tfstate
+   29  terraform state list
+   30  terraform destroy -target="aws_instance.one[0]"
+   31  terraform state list
+   32  terraform destroy -target="aws_instance.one[2]"
+   33  terraform state list
+   34  terraform destroy
+   35  cat main.tf
+   36  history
