@@ -91,3 +91,236 @@ HISTORY:
    34  terraform destroy
    35  cat main.tf
    36  history
+
+=======================================================================================================================================
+
+DAY-02:
+
+VARIBALES: Used to store the values 
+and the values are going to chnage as per time.
+this block is used to chnage the vlaues frequently.
+
+provider "aws" {
+region = "us-east-1"
+}
+
+resource "aws_instance" "raham" {
+ami = "ami-04823729c75214919"
+instance_type = "t2.micro"
+key_name = "4pmbatch"
+tags = {
+Name = "raham-terraform"
+}
+
+
+TYPE-1: STRING -- > it consist of numeric and aplhabets.
+
+provider "aws" {
+region = "us-east-1"
+}
+
+resource "aws_instance" "raham" {
+ami = "ami-04823729c75214919"
+instance_type = var.instance_type
+key_name = var.key_name
+tags = {
+Name = "raham-terraform"
+}
+}
+
+variable "instance_type" {
+description = "this block is to dfine the variable of instance type"
+type = string
+default = "t2.micro"
+}
+
+variable "key_name" {
+description = "*"
+type = string
+default = "4pmbatch"
+}
+
+
+TYPE-2: NUMBER
+
+provider "aws" {
+region = "us-east-1"
+}
+
+resource "aws_instance" "raham" {
+count = var.instance_count
+ami = "ami-04823729c75214919"
+instance_type = "t2.micro"
+key_name = "4pmbatch"
+tags = {
+Name = "raham-terraform"
+}
+}
+
+variable "instance_count" {
+description = "*"
+type = number
+default = 3
+}
+
+
+TYPE-3:
+TYPE-4:
+
+VARIABLE FILES: it will have only variable blocks inside the file.
+
+vim main.tf
+
+provider "aws" {
+region = "us-east-1"
+}
+
+resource "aws_instance" "raham" {
+count = var.instance_count
+ami = "ami-04823729c75214919"
+instance_type = "t2.micro"
+key_name = "4pmbatch"
+tags = {
+Name = "raham-terraform"
+}
+}
+
+vim variable.tf
+
+variable "instance_count" {
+description = "*"
+type = number
+default = 3
+}
+
+
+TFVAR FILES: It will divide the variable block and the value is going to store in another file.
+note: use -var-file="filename" when we are working with tfvar files
+command: terraform apply --auto-approve -var-file="raham.tfvars"
+
+cat main.tf
+provider "aws" {
+region = "us-east-1"
+}
+
+resource "aws_instance" "raham" {
+count = var.instance_count
+ami = "ami-04823729c75214919"
+instance_type = "t2.micro"
+key_name = "4pmbatch"
+tags = {
+Name = "raham-terraform"
+}
+}
+
+cat variable.tf
+variable "instance_count" {
+}
+
+cat raham.tfvars
+instance_count = "3"
+
+command: terraform apply --auto-approve -var-file="raham.tfvars"
+command: terraform destroy --auto-approve -var-file="raham.tfvars"
+
+
+HISTORY:
+
+30  aws configure
+   31  ll
+   32  cd terraform/
+   33  ll
+   34  rm -rf *
+   35  ll
+   36  terraform -v
+   37  vim main.tf
+   38  ll
+   39  terraform init
+   40  terraform plan
+   41  vim main.tf
+   42  terraform plan
+   43  vim main.tf
+   44  terraform plan
+   45  cd
+   46  ll
+   47  cd .aws/
+   48  ll
+   49  cat c
+   50  cat config
+   51  cat credentials
+   52  vim credentials
+   53  cd
+   54  cd terraform/
+   55  terraform plan
+   56  terraform apply --auto-approve
+   57  ll
+   58  terraform state list
+   59  cat terraform.tfstate
+   60  terraform destroy --auto-approve
+   61  vim main.tf
+   62  terraform plan
+   63  terraform apply --auto-approve
+   64  terraform destroy --auto-approve
+   65  vim main.tf
+   66  terraform apply --auto-approve
+   67  terraform destroy --auto-approve
+   68  cat terraform.tfstate
+   69  cat main.tf
+   70  vim main.tf
+   71  terraform plan
+   72  terraform apply --auto-approve
+   73  vim main.tf
+   74  terraform apply --auto-approve
+   75  vim main.tf
+   76  terraform apply --auto-approve
+   77  vi main.tf
+   78  terraform apply --auto-approve
+   79  vim main.tf
+   80  terraform apply --auto-approve
+   81  vim main.tf
+   82  terraform apply --auto-approve
+   83  terraform destroy --auto-approve
+   84  terraform apply --auto-approve
+   85  vim main.tf
+   86  terraform apply --auto-approve
+   87  terraform state list
+   88  terraform destroy --auto-approve
+   89  cat main.tf
+   90  vim main.tf
+   91  ll
+   92  vim variable.tf
+   93  ll
+   94  cat main.tf
+   95  cat variable.tf
+   96  terraform apply --auto-approve
+   97  vim variable.tf
+   98  terraform apply --auto-approve
+   99  terraform destroy --auto-approve
+  100  cat main.tf
+  101  cat variable.tf
+  102  vim variable.tf
+  103  vim raham.tfvars
+  104  terraform apply --auto-approve
+  105  vim raham.tfvars
+  106  terraform apply --auto-approve
+  107  terraform init -lock=false
+  108  ps
+  109  kill -9 31367
+  110  terraform apply --auto-approve
+  111  ll
+  112  terraform destroy --auto-approve
+  113  cat main.tf
+  114  cat variable.tf
+  115  cat raham.tfvars
+  116  vim raham.tfvars
+  117  terraform apply --auto-approve
+  118  terraform apply --auto-approve -var-file="raham.tfvars"
+  119  cat main.tf
+  120  cat variable.tf
+  121  cat raham.tfvars
+  122  cat main.tf
+  123  terraform destroy --auto-approve
+  124  terraform destroy --auto-approve -var-file="raham.tfvars"
+  125  history
+
+
