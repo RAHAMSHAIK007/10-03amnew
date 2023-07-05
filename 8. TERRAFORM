@@ -324,3 +324,177 @@ HISTORY:
   125  history
 
 
+===================================================================
+
+DAY-03:
+
+
+cat main.tf
+resource "aws_instance" "one" {
+ami = var.ami_id
+instance_type = var.instance_type
+tags = {
+Name = var.instance_name
+}
+}
+
+cat variable.tf
+variable "ami_id" {
+}
+
+variable "instance_type" {
+}
+
+variable "instance_name" {
+}
+
+cat swiggy.tfvars
+ami_id = "ami-0261755bbcb8c4a84"
+
+instance_type = "t2.micro"
+
+instance_name = "swiggy"
+
+cat zomato.tfvars
+ami_id = "ami-04823729c75214919"
+
+instance_type = "t2.medium"
+
+instance_name = "zomato"
+
+
+TERRAFORM LOCALS:
+We can defin ethe value once and use it multiple times
+
+provider "aws" {
+region = "us-east-1"
+}
+
+locals {
+env = "swiggy"
+}
+
+resource "aws_instance" "raham" {
+ami = "ami-04823729c75214919"
+instance_type = "t2.micro"
+key_name = "4pmbatch"
+tags = {
+Name = "${local.env}"
+}
+}
+
+
+provider "aws" {
+region = "us-east-1"
+}
+
+locals {
+instance_type = "t2.micro"
+env = "swiggy"
+}
+
+resource "aws_instance" "raham" {
+ami = "ami-04823729c75214919"
+instance_type = "${local.instance_type}"
+key_name = "4pmbatch"
+tags = {
+Name = "${local.env}"
+}
+}
+
+CREATING VPC AND SUBNET:
+
+provider "aws" {
+region = "us-east-1"
+}
+
+locals {
+env = "swiggy"
+}
+
+resource "aws_vpc" "one" {
+cidr_block = "10.6.0.0/16"
+tags = {
+Name = "${local.env}-vpc"
+}
+}
+
+resource "aws_subnet" "two" {
+vpc_id = aws_vpc.one.id
+cidr_block = "10.6.0.0/16"
+tags = {
+Name = "${local.env}-subnet"
+}
+}
+
+resource "aws_instance" "raham" {
+subnet_id = aws_subnet.two.id
+ami = "ami-04823729c75214919"
+instance_type = "t2.micro"
+key_name = "4pmbatch"
+tags = {
+Name = "${local.env}"
+}
+}
+
+terraform graph is used to see the infrastructre creation on a graphical way.
+website: terraform graphwiz
+
+HISTORY:
+
+178  vim main.tf
+  179  ll
+  180  vim variable.tf
+  181  cat main.tf
+  182  cat variable.tf
+  183  vim swiggy.tfvars
+  184  vim zomato.tfvars
+  185  cat main.tf
+  186  cat variable.tf
+  187  cat swiggy.tfvars
+  188  cat zomato.tfvars
+  189  terraform init
+  190  terraform plan
+  191  terraform plan -var-file="swiggy.tfvars"
+  192  vim main.tf
+  193  terraform plan -var-file="swiggy.tfvars"
+  194  terraform apply -var-file="swiggy.tfvars" --auto-approve
+  195  terraform destroy -var-file="swiggy.tfvars" --auto-approve
+  196  terraform apply -var-file="zomato.tfvars" --auto-approve
+  197  terraform destroy -var-file="zomato.tfvars" --auto-approve
+  198  cat main.tf
+  199  cat variable.tf
+  200  cat swiggy.tfvars
+  201  cat zomato.tfvars
+  202  lll
+  203  ll
+  204  rm -rf swiggy.tfvars zomato.tfvars variable.tf
+  205  ll
+  206  vim main.tf
+  207  terraform plan
+  208  vim main.tf
+  209  terraform apply --auto-approve
+  210  vim main.tf
+  211  terraform apply --auto-approve
+  212  terraform state list
+  213  cat terraform.tfstate
+  214  cat terraform.tfstate | grep -i name
+  215  vim main.tf
+  216  terraform apply --auto-approve
+  217  cat terraform.tfstate | grep -i name
+  218  cat main.tf
+  219  terraform destroy --auto-approve
+  220  vim main.tf
+  221  terraform apply --auto-approve
+  222  terraform destroy --auto-approve
+  223  cat main.tf
+  224  vim main.tf
+  225  cat main.tf
+  226  terraform apply --auto-approve
+  227  vim main.tf
+  228  terraform apply --auto-approve
+  229  vim main.tf
+  230  terraform apply --auto-approve
+  231  cat main.tf
+  232  terraform graph
+  233  history
