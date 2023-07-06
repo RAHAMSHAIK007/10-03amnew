@@ -498,3 +498,144 @@ HISTORY:
   231  cat main.tf
   232  terraform graph
   233  history
+
+
+==================================
+DAY-04:
+
+WORKSPACE: It is used to isolate our env.
+the default workspace of terraform is default.
+
+terraform workspace list	: to list the workspace
+terraform workspace new	swigy	: to create the workspace
+terraform workspace select swigy: to swith to the swiggy workspace
+terraform workspace show 	: to show the current workspace
+
+==========================================================
+
+ALIAS PROVIDER:
+
+provider "aws" {
+region = "us-east-1"
+}
+
+provider "aws" {
+region = "ap-south-1"
+alias = "south"
+}
+
+resource "aws_instance" "one" {
+ami = "ami-04823729c75214919"
+instance_type = "t2.micro"
+tags = {
+Name = "nvirginia"
+}
+}
+
+resource "aws_instance" "two" {
+provider = aws.south
+ami = "ami-006935d9a6773e4ec"
+instance_type = "t2.medium"
+tags = {
+Name = "mumbai"
+}
+}
+
+=======================================================================
+
+TERRAFORM OUTPUTS:
+
+provider "aws" {
+region = "us-east-1"
+}
+
+resource "aws_instance" "one" {
+ami = "ami-04823729c75214919"
+instance_type = "t2.micro"
+tags = {
+Name = "nvirginia"
+}
+}
+
+output "raham" {
+value = [aws_instance.one.public_ip, aws_instance.one.private_ip, aws_instance.one.public_dns]
+}
+
+HISTORY:
+246  terraform init
+  247  terraform plan -var-file="swiggy.tfvars"
+  248  terraform apply --auto-approve -var-file="swiggy.tfvars"
+  249  terraform apply --auto-approve -var-file="zomato.tfvars"
+  250  terraform destroy --auto-approve -var-file="zomato.tfvars"
+  251  terraform workspace list
+  252  terraform workspace new swiggy
+  253  terraform workspace list
+  254  ll
+  255  terraform apply --auto-approve -var-file="zomato.tfvars"
+  256  ps
+  257  kill -9 3535 3521
+  258  terraform apply --auto-approve -var-file="swiggy.tfvars"
+  259  terraform workspace new zomato
+  260  terraform apply --auto-approve -var-file="zomato.tfvars"
+  261  terraform workspace new dunzo
+  262  ll
+  263  cp zomato.tfvars dunzo.tfvars
+  264  ll
+  265  vim dunzo.tfvars
+  266  terraform apply --auto-approve -var-file="dunzo.tfvars"
+  267  terraform workspace show
+  268  terraform workspace list
+  269  terraform workspace select swiggy
+  270* terraform workspace l
+  271  terraform workspace select zomato
+  272  terraform workspace list
+  273  terraform workspace delete zomato
+  274  terraform workspace select swiggy
+  275  terraform workspace delete zomato
+  276  terraform workspace select zomato
+  277  terraform destroy --auto-approve -var-file="zomato.tfvars"
+  278  terraform workspace select swiggy
+  279  terraform workspace delete zomato
+  280  terraform workspace list
+  281  terraform workspace delete dunzo -force
+  282  terraform workspace select dunzo
+  283  terraform destroy --auto-approve -var-file="dunzo.tfvars"
+  284  terraform workspace select swiggy
+  285  terraform workspace delete dunzo
+  286  terraform workspace list
+  287  terraform destroy --auto-approve -var-file="swiggy.tfvars"
+  288  terraform workspace select default
+  289  terraform workspace delete swiggy
+  290  terraform workspace list
+  291  terraform workspace new swiggy
+  292  terraform workspace list
+  293  terraform workspace delete default
+  294  terraform workspace select default
+  295  terraform workspace list
+  296  vim main.tf
+  297  terraform apply --auto-approve
+  298  terraform state list
+  299  terraform workspace list
+  300  cat main.tf
+  301  ll
+  302  rm -rf variable.tf swiggy.tfvars zomato.tfvars
+  303  rm -rf dunzo.tfvars
+  304  terraform apply --auto-approve
+  305  terraform state list
+  306  terraform destroy -target="aws_instance.two" --auto-approve
+  307  vi main.tf
+  308  terraform state list
+  309  terraform destroy --auto-approve
+  310  vim main.tf
+  311  terraform apply --auto-approve
+  312  vim main.tf
+  313  terraform apply --auto-approve
+  314  vim main.tf
+  315  terraform apply --auto-approve
+  316  vim main.tf
+  317  terraform apply --auto-approve
+  318  vim main.tf
+  319  terraform apply --auto-approve
+  320  cat main.tf
+  321  cat terraform.tfstate
+  322  terraform destroy --auto-approve
