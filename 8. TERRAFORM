@@ -639,3 +639,119 @@ HISTORY:
   320  cat main.tf
   321  cat terraform.tfstate
   322  terraform destroy --auto-approve
+
+======================================================================================================
+
+
+provider "aws" {
+}
+
+resource "aws_iam_user" "one" {
+name = "raham008"
+}
+
+resource "aws_ebs_volume" "two" {
+size = 13
+availability_zone = "us-east-1a"
+tags = {
+Name = "terrvolume-new"
+}
+}
+
+resource "aws_s3_bucket" "three" {
+bucket = "rahamshaik00998877"
+}
+
+==================================================================================================
+
+provider "aws" {
+}
+
+resource "aws_iam_user" "one" {
+count = length(var.user_name)
+name = var.user_name[count.index]
+}
+
+variable "user_name" {
+description = "*"
+type = list(string)
+default = ["rahamshaik001", "rahamshaik002", "rahamshaik003"]
+}
+
+
+provider "aws" {
+}
+
+resource "aws_iam_user" "one" {
+for_each = var.user_name
+name = each.value
+}
+
+variable "user_name" {
+description = "*"
+type = set(string)
+default = ["rahamshaik001", "rahamshaik002", "rahamshaik003", "rahamshaik003"]
+}
+
+HISTORY:
+
+ 329  terraform init
+  330  terraform plan
+  331  terraform apply --auto-approve
+  332  vim main.tf
+  333  cat main.tf
+  334  terraform apply --auto-approve
+  335  vim main.tf '
+  336  terraform state list
+  337  terraform apply --auto-approve
+  338  cat main.tf
+  339  terraform apply --auto-approve
+  340  vim main.tf
+  341  cat main.tf
+  342  terraform apply --auto-approve
+  343  vim main.tf
+  344  cat main.tf
+  345  terraform apply --auto-approve
+  346  vim main.tf
+  347  terraform apply --auto-approve
+  348  ll
+  349  cat terraform.tfstate
+  350  ll
+  351  vim terraform.tfstate.backup
+  352  terraform state list
+  353  vim terraform.tfstate
+  354  terraform state list
+  355  ll
+  356  terraform state list
+  357  rm -rf terraform.tfstate
+  358  ll
+  359  rm -rf terraform.tfstate.backup
+  360  ll
+  361  terraform state list
+  362  terraform refresh
+  363  vim main.tf
+  364  terraform apply --auto-approve
+  365  vim main.tf
+  366  terraform apply --auto-approve
+  367  terraform state list
+  368  vim main.tf
+  369  terraform apply --auto-approve
+  370  terraform destroy --auto-approve
+  371  ll
+  372  vim main.tf
+  373  terraform apply -auto-approve
+  374  terraform apply --auto-approve
+  375  vim main.tf
+  376  terraform apply --auto-approve
+  377  cat main.tf
+  378  terraform destroy --auto-approve
+  379  vim main.tf
+  380  terraform apply --auto-approve
+  381  vim main.tf
+  382  terraform destroy --auto-approve
+  383  vim main.tf
+  384  terraform apply --auto-approve
+  385  vim main.tf
+  386  terraform apply --auto-approve
+  387  cat main.tf
+
