@@ -755,3 +755,233 @@ HISTORY:
   386  terraform apply --auto-approve
   387  cat main.tf
 
+===============================================================
+
+DAY-06:
+
+TERRAFORM VALIDATE : Used to validate the syntax of terraform
+TAINT: used to recreate the specific objects which are not working properly
+
+cat main.tf
+
+provider "aws" {
+}
+
+resource "aws_instance" "webserver1" {
+ami = "ami-04823729c75214919"
+instance_type = "t2.micro"
+availability_zone = "us-east-1a"
+key_name = "4pmbatch"
+tags = {
+Name = "raham1"
+}
+}
+
+resource "aws_s3_bucket" "bucket" {
+bucket = "devops99887766"
+}
+
+resource "aws_ebs_volume" "three" {
+size = 13
+availability_zone = "us-east-1a"
+tags = {
+Name = "raham-ebs"
+}
+}
+
+terraform taint aws_s3_bucket.bucket
+terraform taint aws_ebs_volume.three
+
+terraform apply --auto-approve
+
+terraform fmt : used to arrange the code on a format.
+
+DYNAMIC BLOCK: To reduce the length of code and you can resue the code.
+
+provider "aws" {
+}
+
+locals {
+  ingress_rules = [{
+    port        = 443
+    description = "Ingress rules for port 443"
+    },
+    {
+      port        = 80
+      description = "Ingree rules for port 80"
+  },
+  {
+      port        = 8080
+      description = "Ingree rules for port 8080"
+
+  }]
+}
+
+resource "aws_instance" "ec2_example" {
+  ami                    = "ami-0c02fb55956c7d316"
+  instance_type          = "t2.micro"
+  vpc_security_group_ids = [aws_security_group.main.id]
+  tags = {
+    Name = "Terraform EC2"
+  }
+}
+
+resource "aws_security_group" "main" {
+
+  egress = [
+    {
+      cidr_blocks      = ["0.0.0.0/0"]
+      description      = "*"
+      from_port        = 0
+      ipv6_cidr_blocks = []
+      prefix_list_ids  = []
+      protocol         = "-1"
+      security_groups  = []
+      self             = false
+      to_port          = 0
+  }]
+
+  dynamic "ingress" {
+    for_each = local.ingress_rules
+
+    content {
+      description = "*"
+      from_port   = ingress.value.port
+      to_port     = ingress.value.port
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  }
+
+  tags = {
+    Name = "terra sg"
+  }
+}
+
+
+WITHOUT DYNAMIC BLOCK:
+
+resource "aws_security_group" "five" {
+  name = "elb-sg"
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+LIFECYCLE WITH  META ARGUMENTS:
+
+
+
+==========================================================================================================
+
+TERRAFORM CLI:
+
+provider "aws" {
+}
+
+resource "aws_instance" "raham" {
+ami = "ami-04823729c75214919"
+instance_type = var.instance_type
+tags = {
+Name = "raham-terraform"
+}
+}
+
+variable "instance_type" {
+}
+
+
+terraform apply --auto-approve -var="instance_type=t2.micro"
+terraform destroy --auto-approve -var="instance_type=t2.micro"
+
+HISTORY:
+
+ 393  vim main.tf
+  394  terraform init
+  395  terraform validate
+  396  terraform apply --auto-approve
+  397  terraform state list
+  398  terraform taint aws_instance.webserver1
+  399  terraform taint list
+  400  terraform taint
+  401  terraform apply --auto-approve
+  402  terraform state list
+  403  terraform apply --auto-approve
+  404  terraform taint aws_s3_bucket.bucket
+  405  terraform taint aws_ebs_volume.three
+  406  terraform apply --auto-approve
+  407  cat main.tf
+  408  terraform fmt
+  409  cat main.tf
+  410  vim main.tf
+  411  terraform apply --auto-approve
+  412  vim main.tf
+  413  terraform apply --auto-approve
+  414  vim main.tf
+  415  terraform fmt
+  416  vim main.tf
+  417  terraform fmt
+  418  vim main.tf
+  419  terraform fmt
+  420  vim main.tf
+  421  terraform fmt
+  422  cat main.tf
+  423  terraform apply --auto-approve
+  424  vim main.tf
+  425  terraform apply --auto-approve
+  426  vim main.tf
+  427  terraform fmt
+  428  vim main.tf
+  429  terraform apply --auto-approve
+  430  vim main.tf
+  431  terraform apply --auto-approve
+  432  cat main.tf
+  433  terraform destroy --auto-approve
+  434  vim main.tf
+  435  terraform apply --auto-approve
+  436  vim main.tf
+  437  terraform apply --auto-approve
+  438  terraform destroy --auto-approve
+  439  terraform state list
+  440  terraform destroy --auto-approve
+  441  vim main.tf
+  442  terraform destroy --auto-approve
+  443  terraform plan
+  444  cat main.tf
+  445  terraform plan
+  446  terraform destroy --auto-approve
+  447  vim main.tf
+  448  terraform apply --auto-approve
+  449  terraform destroy --auto-approve
+  450  vim main.tf
+  451  terraform apply --auto-approve
+  452  terraform destroy --auto-approve
+  453  terraform lifecycle -h
+  454  terraform
+  455  vim main.tf
+  456  terraform apply --auto-approve
+  457  vim main.tf
+  458  terraform apply --auto-approve
+  459  terraform destroy --auto-approve
+  460  terraform destroy --auto-approve -var="instance_type=t2.micro"
+  461  terraform apply --auto-approve -var="instance_type=t2.micro"
+  462  cat main.tf
+  463  terraform destroy --auto-approve -var="instance_type=t2.micro"
+  464  history
