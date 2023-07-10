@@ -985,3 +985,111 @@ HISTORY:
   462  cat main.tf
   463  terraform destroy --auto-approve -var="instance_type=t2.micro"
   464  history
+
+=====================================================================================================================
+
+MODULES:
+
+[root@ip-172-31-87-7 terraform]# cat main.tf
+module "my_instance_module" {
+        source = "./modules/instances"
+        ami = "ami-04823729c75214919"
+        instance_type = "t2.micro"
+        instance_name = " rahaminstance"
+}
+
+module "s3_module" {
+source = "./modules/buckets"
+bucket_name = "devopsherahamshaik009988"
+}
+
+[root@ip-172-31-87-7 terraform]# cat provider.tf
+provider "aws" {
+}
+[root@ip-172-31-87-7 terraform]# cat modules/instances/main.tf
+resource "aws_instance" "my_instance" {
+        ami = var.ami
+        instance_type = var.instance_type
+        tags = {
+                Name = var.instance_name
+        }
+}
+
+[root@ip-172-31-87-7 terraform]# cat modules/instances/variable.tf
+variable "ami" {
+  type          = string
+}
+
+variable "instance_type" {
+  type          = string
+}
+
+variable "instance_name" {
+  description   = "Value of the Name tag for the EC2 instance"
+  type          = string
+}
+
+[root@ip-172-31-87-7 terraform]# cat modules/buckets/main.tf
+resource "aws_s3_bucket" "b" {
+bucket = var.bucket_name
+}
+
+[root@ip-172-31-87-7 terraform]# cat modules/buckets/variable.tf
+variable "bucket_name" {
+type = string
+}
+
+================================================================================
+
+TERRAFORM IMPORT: used to get the resource configuration which is created manually.
+
+
+provider "aws" {
+}
+
+resource "aws_instance" "webserver1" {
+ami = "ami-04823729c75214919"
+instance_type = "t2.micro"
+availability_zone = "us-east-1a"
+key_name = "4pmbatch"
+tags = {
+Name = "raham1"
+}
+}
+
+resource "aws_instance" "two" {
+
+}
+
+Note: create a server manually
+
+COMMAND: terraform import aws_instance.two i-08dda6875d2d0d212
+
+REMOTE BACKEND STORING: 
+to store the terraform statefile on remote location for securing.
+
+Create a bucket manually
+
+resource "aws_instance" "one" {
+  ami           = "ami-0574da719dca65348"
+  instance_type = "t2.micro"
+
+  tags = {
+    name = "web-server"
+  }
+}
+
+terraform {
+  backend "s3" {
+    bucket = "raham889977"
+    key    = "swiggy/prod/terraform.tfstate"
+    region = "us-east-1"
+  }
+}
+
+Init plan and apply
+terraform init -reconfigure
+
+
+
+https://registry.terraform.io/providers/hashicorp/aws/5.6.0
